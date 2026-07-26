@@ -1,0 +1,360 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<div
+  id="ai-chat-widget"
+  transition:persist="ai-chat-widget"
+  class="fixed bottom-6 right-6 z-[9999] flex flex-col items-end pointer-events-none transition-all duration-300 transform"
+>
+  <!-- Chat Popup -->
+  <div
+    id="ai-chat-popup"
+    class="bg-white dark:bg-slate-900 w-80 sm:w-96 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 mb-4 overflow-hidden flex-col hidden pointer-events-auto transition-transform duration-300 origin-bottom-right scale-95 opacity-0"
+  >
+    <!-- Header -->
+    <div
+      class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 flex justify-between items-center rounded-t-2xl shadow-sm"
+    >
+      <div class="flex items-center gap-2">
+        <Icon name="tabler:robot" class="w-6 h-6 animate-pulse" />
+        <span
+          class="font-bold text-lg tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-100 to-cyan-100 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]"
+          >Infinity Code AI</span
+        >
+      </div>
+      <button id="ai-chat-close" class="text-white/80 hover:text-white transition-colors">
+        <Icon name="tabler:x" class="w-5 h-5" />
+      </button>
+    </div>
+
+    <!-- Messages Area -->
+    <div
+      id="ai-chat-messages"
+      class="flex-1 p-4 h-80 overflow-y-auto bg-slate-50 dark:bg-slate-900/50 flex flex-col gap-3"
+    >
+      <!-- Initial welcome message -->
+      <div class="flex flex-col gap-1 items-start animate-fade-in-up">
+        <div
+          class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm text-sm border border-slate-100 dark:border-slate-700/50 flex gap-2 items-start"
+        >
+          <span class="text-lg">👋</span>
+          <p>
+            Welcome! I am your virtual AI assistant. If you need any help with our IT solutions or services, feel free
+            to ask.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
+      <form id="ai-chat-form" class="flex items-center gap-2 relative">
+        <input
+          type="text"
+          id="ai-chat-input"
+          placeholder="Ask about our services..."
+          class="w-full bg-slate-100 dark:bg-slate-800 border-transparent focus:border-primary-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-0 rounded-full py-2.5 pl-4 pr-12 text-sm text-slate-800 dark:text-slate-200 transition-colors"
+          autocomplete="off"
+        />
+        <button
+          type="submit"
+          id="ai-chat-submit"
+          class="absolute right-1 p-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-full transition-all shadow-sm flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+        >
+          <Icon name="tabler:send" class="w-4 h-4" />
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Welcome Bubble (before opening) -->
+  <div
+    id="ai-chat-welcome-bubble"
+    class="absolute bottom-[4.5rem] right-0 mb-2 w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl rounded-br-sm shadow-xl p-3 flex gap-3 items-start transform transition-all duration-500 translate-y-4 opacity-0 pointer-events-none"
+  >
+    <div
+      class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shrink-0 shadow-sm"
+    >
+      <Icon name="tabler:robot" class="w-5 h-5 text-white" />
+    </div>
+    <div class="text-sm text-slate-700 dark:text-slate-300">
+      <p class="font-semibold text-slate-900 dark:text-white mb-0.5">Welcome! 👋</p>
+      <p class="text-xs leading-relaxed">I am your virtual AI assistant. If you need any help, feel free to ask.</p>
+    </div>
+    <button
+      id="ai-chat-welcome-close"
+      class="absolute top-2 right-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 pointer-events-auto"
+    >
+      <Icon name="tabler:x" class="w-3.5 h-3.5" />
+    </button>
+  </div>
+
+  <!-- Toggle Button -->
+  <button
+    id="ai-chat-toggle"
+    class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white w-14 h-14 rounded-full shadow-2xl shadow-blue-500/40 flex items-center justify-center pointer-events-auto transition-all hover:scale-110 active:scale-95 group border-2 border-white/30 animate-float relative"
+    aria-label="Open AI Chat Assistant"
+  >
+    <Icon
+      name="tabler:robot"
+      class="w-7 h-7 group-[.chat-open]:hidden drop-shadow-md transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110"
+    />
+    <Icon name="tabler:x" class="w-6 h-6 hidden group-[.chat-open]:block drop-shadow-md" />
+    <span class="absolute -top-1 -right-1 flex h-4 w-4 group-[.chat-open]:hidden">
+      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+      <span class="relative inline-flex rounded-full h-4 w-4 bg-cyan-400 border-2 border-white dark:border-slate-900"
+      ></span>
+    </span>
+  </button>
+</div>
+
+<script>
+  import { marked } from 'marked';
+
+  const toggleBtn = document.getElementById('ai-chat-toggle');
+  const closeBtn = document.getElementById('ai-chat-close');
+  const popup = document.getElementById('ai-chat-popup');
+  const form = document.getElementById('ai-chat-form') as HTMLFormElement;
+  const input = document.getElementById('ai-chat-input') as HTMLInputElement;
+  const messagesContainer = document.getElementById('ai-chat-messages');
+  const submitBtn = document.getElementById('ai-chat-submit') as HTMLButtonElement;
+  const welcomeBubble = document.getElementById('ai-chat-welcome-bubble');
+  const welcomeCloseBtn = document.getElementById('ai-chat-welcome-close');
+
+  let isOpen = false;
+  let isThinking = false;
+  let chatHistory: { role: string; content: string }[] = [];
+
+  // Restore chat history from sessionStorage
+  async function restoreChatHistory() {
+    try {
+      const saved = sessionStorage.getItem('ai_chat_history');
+      if (saved) {
+        chatHistory = JSON.parse(saved);
+        for (const msg of chatHistory) {
+          if (msg.role === 'user') {
+            appendMessage('user', msg.content);
+          } else {
+            let html = msg.content;
+            if (typeof marked !== 'undefined' && marked.parse) {
+              html = await marked.parse(msg.content);
+            }
+            appendMessage('model', html);
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Failed to restore chat history:', e);
+    }
+  }
+
+  function saveChatHistory() {
+    try {
+      sessionStorage.setItem('ai_chat_history', JSON.stringify(chatHistory));
+    } catch (e) {
+      console.error('Failed to save chat history:', e);
+    }
+  }
+
+  restoreChatHistory();
+
+  // Show welcome bubble after delay only on home page and once per browsing session
+  const isHomePage =
+    window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname === '/index.html';
+  const hasSeenWelcome = sessionStorage.getItem('ai_chat_welcome_seen');
+
+  if (isHomePage && !hasSeenWelcome) {
+    setTimeout(() => {
+      if (!isOpen) {
+        welcomeBubble?.classList.remove('translate-y-4', 'opacity-0', 'pointer-events-none');
+        sessionStorage.setItem('ai_chat_welcome_seen', 'true');
+      }
+    }, 2000);
+  }
+
+  function hideWelcomeBubble() {
+    welcomeBubble?.classList.add('translate-y-4', 'opacity-0', 'pointer-events-none');
+    sessionStorage.setItem('ai_chat_welcome_seen', 'true');
+  }
+
+  welcomeCloseBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    hideWelcomeBubble();
+  });
+
+  function toggleChat() {
+    hideWelcomeBubble();
+    const chatWidget = document.getElementById('ai-chat-widget');
+    isOpen = !isOpen;
+    if (isOpen) {
+      chatWidget?.classList.remove('translate-x-36', 'opacity-0');
+      popup?.classList.remove('hidden');
+      // small delay for transition to work
+      requestAnimationFrame(() => {
+        popup?.classList.remove('scale-95', 'opacity-0');
+        popup?.classList.add('scale-100', 'opacity-100');
+        toggleBtn?.classList.add('chat-open');
+      });
+      input?.focus();
+    } else {
+      popup?.classList.remove('scale-100', 'opacity-100');
+      popup?.classList.add('scale-95', 'opacity-0');
+      toggleBtn?.classList.remove('chat-open');
+      setTimeout(() => {
+        popup?.classList.add('hidden');
+      }, 300); // match transition duration
+    }
+  }
+
+  toggleBtn?.addEventListener('click', toggleChat);
+  closeBtn?.addEventListener('click', toggleChat);
+
+  // Scroll auto-hide on scroll down (side-slide left & right) & auto-show on reverse scroll
+  let lastScrollY = window.scrollY;
+  let isTicking = false;
+
+  function handleScroll() {
+    const currentScrollY = window.scrollY;
+    const chatWidget = document.getElementById('ai-chat-widget');
+    const musicWidget = document.getElementById('music-player-widget');
+
+    // Always show near top of page
+    if (currentScrollY < 60) {
+      if (!isOpen) {
+        chatWidget?.classList.remove('translate-x-36', 'opacity-0');
+      }
+      musicWidget?.classList.remove('-translate-x-36', 'opacity-0');
+      lastScrollY = currentScrollY;
+      isTicking = false;
+      return;
+    }
+
+    const delta = currentScrollY - lastScrollY;
+
+    if (Math.abs(delta) > 8) {
+      if (delta > 0) {
+        // Scrolling Down -> Hide buttons by sliding to their respective outer sides (Right & Left)
+        if (!isOpen) {
+          chatWidget?.classList.add('translate-x-36', 'opacity-0');
+        }
+        musicWidget?.classList.add('-translate-x-36', 'opacity-0');
+      } else {
+        // Reverse Scroll (Scrolling Up) -> Show floating buttons back
+        chatWidget?.classList.remove('translate-x-36', 'opacity-0');
+        musicWidget?.classList.remove('-translate-x-36', 'opacity-0');
+      }
+      lastScrollY = currentScrollY;
+    }
+    isTicking = false;
+  }
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!isTicking) {
+        window.requestAnimationFrame(handleScroll);
+        isTicking = true;
+      }
+    },
+    { passive: true }
+  );
+
+  function appendMessage(role: 'user' | 'model', content: string) {
+    if (!messagesContainer) return;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = `flex flex-col gap-1 ${role === 'user' ? 'items-end' : 'items-start'} max-w-[90%] ${role === 'user' ? 'ml-auto' : 'mr-auto'}`;
+
+    const bubble = document.createElement('div');
+    if (role === 'user') {
+      bubble.className =
+        'bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-2xl rounded-tr-sm shadow-sm text-sm break-words';
+      bubble.textContent = content;
+    } else {
+      bubble.className =
+        'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 px-4 py-2 rounded-2xl rounded-tl-sm shadow-sm text-sm border border-slate-100 dark:border-slate-700/50 prose prose-sm dark:prose-invert break-words max-w-full';
+      // Basic markdown parsing
+      bubble.innerHTML = content;
+    }
+
+    wrapper.appendChild(bubble);
+    messagesContainer.appendChild(wrapper);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  function appendThinking() {
+    if (!messagesContainer) return;
+    const wrapper = document.createElement('div');
+    wrapper.id = 'ai-chat-thinking';
+    wrapper.className = 'flex flex-col gap-1 items-start max-w-[90%] mr-auto';
+
+    const bubble = document.createElement('div');
+    bubble.className =
+      'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm text-sm border border-slate-100 dark:border-slate-700/50 flex items-center gap-1.5';
+    bubble.innerHTML =
+      '<span class="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce"></span><span class="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce" style="animation-delay: 0.15s"></span><span class="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce" style="animation-delay: 0.3s"></span>';
+
+    wrapper.appendChild(bubble);
+    messagesContainer.appendChild(wrapper);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  function removeThinking() {
+    const thinking = document.getElementById('ai-chat-thinking');
+    if (thinking) thinking.remove();
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (isThinking || !input?.value.trim()) return;
+
+    const message = input.value.trim();
+    input.value = '';
+
+    appendMessage('user', message);
+    isThinking = true;
+    input.disabled = true;
+    submitBtn.disabled = true;
+    appendThinking();
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, history: chatHistory }),
+      });
+
+      removeThinking();
+
+      const resData = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(resData.error || 'Network response was not ok');
+      }
+      const data = resData;
+
+      const responseText = data.response || '';
+
+      // Parse markdown to HTML
+      const htmlContent = await marked.parse(responseText);
+      appendMessage('model', htmlContent);
+
+      chatHistory.push({ role: 'user', content: message });
+      chatHistory.push({ role: 'model', content: data.response });
+      saveChatHistory();
+    } catch (err) {
+      removeThinking();
+      const errorMsg =
+        err instanceof Error
+          ? err.message
+          : 'Sorry, I encountered an error connecting to the server. Please try again later.';
+      const htmlError = `<p class="text-red-500 font-medium">${errorMsg}</p>`;
+      appendMessage('model', htmlError);
+    } finally {
+      isThinking = false;
+      input.disabled = false;
+      submitBtn.disabled = false;
+      input.focus();
+    }
+  });
+</script>

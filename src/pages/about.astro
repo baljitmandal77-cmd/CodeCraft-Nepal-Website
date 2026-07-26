@@ -1,0 +1,139 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Content from '~/components/widgets/Content.astro';
+import Stats from '~/components/widgets/Stats.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'About Us',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="<span class='inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full text-[11px] xs:text-xs sm:text-sm font-extrabold text-cyan-300 bg-cyan-500/10 border border-cyan-400/50 shadow-lg shadow-cyan-500/20 uppercase tracking-wider sm:tracking-widest whitespace-nowrap mb-2'><span class='w-2 h-2 rounded-full bg-cyan-400 animate-pulse shrink-0'></span> About Infinity Code Labs</span>"
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Contact Us',
+        href: '/contact',
+      },
+      {
+        text: 'Our Services',
+        href: '/services',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80',
+      alt: 'Infinity Code Labs Team',
+    }}
+  >
+    <Fragment slot="title">
+      <span
+        class="text-3xl sm:text-5xl md:text-6xl flex flex-col md:inline leading-tight tracking-tight font-extrabold items-center"
+      >
+        <span
+          class="inline-block px-3.5 py-1 sm:px-5 sm:py-1.5 my-1 rounded-2xl border-2 border-cyan-400/60 dark:border-cyan-400/50 bg-slate-900/40 text-cyan-200 dark:text-cyan-300 shadow-xl shadow-cyan-500/20 drop-shadow-[0_2px_10px_rgba(34,211,238,0.6)] animate-text-glow font-extrabold"
+        >
+          Building Modern
+        </span>
+        <span
+          class="inline-block px-3.5 py-1 sm:px-5 sm:py-1.5 my-1 rounded-2xl border-2 border-purple-400/60 dark:border-purple-400/50 bg-slate-900/40 text-purple-200 dark:text-purple-300 shadow-xl shadow-purple-500/20 drop-shadow-[0_2px_10px_rgba(192,132,252,0.6)] animate-text-glow-purple font-extrabold"
+        >
+          Digital Solutions For Nepal
+        </span>
+      </span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      <span
+        class="inline-block p-4 sm:p-6 rounded-3xl border-2 border-cyan-400/40 dark:border-cyan-400/50 bg-transparent dark:bg-transparent backdrop-blur-none shadow-2xl shadow-cyan-500/20 text-slate-100 dark:text-cyan-100 font-medium text-sm sm:text-lg leading-relaxed drop-shadow-[0_2px_12px_rgba(34,211,238,0.35)]"
+      >
+        Infinity Code Labs is a professional IT company providing complete technology solutions for startups, schools,
+        businesses and organizations across Nepal.
+      </span>
+    </Fragment>
+  </Hero>
+
+  <style>
+    .animate-text-gradient {
+      animation: text-gradient 4s linear infinite;
+    }
+    @keyframes text-gradient {
+      to {
+        background-position: 200% center;
+      }
+    }
+  </style>
+
+  <Content
+    items={[
+      {
+        title: 'Who We Are',
+        description:
+          'We are a passionate team of developers, designers and IT professionals committed to delivering high-quality digital solutions.',
+      },
+      {
+        title: 'Our Mission',
+        description:
+          'To empower businesses with modern, secure and scalable technology solutions at affordable prices.',
+      },
+      {
+        title: 'Our Vision',
+        description: 'To become one of Nepal’s most trusted and innovative IT companies.',
+      },
+      {
+        title: 'Our Values',
+        description: 'Innovation, Quality, Transparency, Customer Satisfaction and Long-term Relationships.',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Our Company',
+    }}
+  >
+    <Fragment slot="content">
+      <div class="mb-5">
+        <h3
+          class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-indigo-200 to-purple-300 drop-shadow-[0_2px_12px_rgba(34,211,238,0.6)] uppercase leading-none"
+        >
+          ABOUT
+        </h3>
+        <div
+          class="inline-flex items-center gap-2 mt-2.5 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full text-xs sm:text-sm font-extrabold text-cyan-200 bg-slate-900/50 border border-cyan-400/50 shadow-lg shadow-cyan-500/20 drop-shadow-[0_1px_6px_rgba(34,211,238,0.4)]"
+        >
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span>Infinity Code Labs</span>
+        </div>
+      </div>
+
+      <p class="text-sm sm:text-base leading-relaxed text-slate-200 font-medium">
+        Infinity Code Labs delivers complete IT solutions including Website Development, Software Development, Mobile
+        App Development, Cyber Security, Cloud Hosting, Domain Registration, Graphics Design, Digital Marketing and
+        Technical Support.
+      </p>
+    </Fragment>
+  </Content>
+
+  <Stats
+    stats={[
+      { title: 'Projects Completed', amount: '100+' },
+      { title: 'Happy Clients', amount: '50+' },
+      { title: 'IT Services', amount: '15+' },
+      { title: 'Support', amount: '24/7' },
+    ]}
+  />
+
+  <CallToAction
+    title="Let's Build Something Amazing Together"
+    subtitle="Need a website, software or mobile app? Contact Infinity Code Labs today."
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Get Free Consultation',
+        href: '/contact',
+      },
+    ]}
+  />
+</Layout>

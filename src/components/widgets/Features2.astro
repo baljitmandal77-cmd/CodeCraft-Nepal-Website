@@ -1,0 +1,64 @@
+---
+import { Icon } from 'astro-icon/components';
+import Button from '~/components/ui/Button.astro';
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import type { Features as Props } from '~/types';
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline = await Astro.slots.render('tagline'),
+  items = [],
+  columns = 3,
+  defaultIcon,
+
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+
+const columnsClass =
+  columns === 4
+    ? 'lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'
+    : columns === 3
+      ? 'lg:grid-cols-3 sm:grid-cols-2'
+      : columns === 2
+        ? 'sm:grid-cols-2'
+        : '';
+---
+
+<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
+
+  {
+    items.length > 0 && (
+      <div class:list={['grid gap-4 md:gap-6 gap-x-12', columnsClass]}>
+        {items.map(({ title: itemTitle, description, icon, callToAction }) => (
+          <div class="relative flex flex-col rounded-2xl p-6 bg-transparent dark:bg-transparent backdrop-blur-none border-2 border-indigo-500/30 hover:border-cyan-400 dark:hover:border-cyan-400 shadow-xl hover:shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 hover:-translate-y-1.5 group intersect-once intersect-quarter intersect-no-queue motion-safe:opacity-0 motion-safe:intersect:animate-slide-up">
+            {(icon || defaultIcon) && (
+              <div class="mb-4 w-12 h-12 rounded-2xl p-2.5 flex items-center justify-center bg-gradient-to-br from-cyan-500/30 via-indigo-500/30 to-purple-500/30 border-2 border-cyan-400/50 text-cyan-300 shadow-lg shadow-cyan-500/30 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <Icon name={icon || defaultIcon} class="w-7 h-7" />
+              </div>
+            )}
+            <div class="text-xl font-extrabold bg-gradient-to-r from-cyan-300 via-sky-200 to-purple-200 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(34,211,238,0.5)] group-hover:from-cyan-200 group-hover:to-pink-300 transition-all duration-300">
+              {itemTitle}
+            </div>
+            {description && (
+              <p
+                class="text-xs sm:text-sm md:text-base font-semibold text-cyan-100/90 dark:text-cyan-100/90 mt-2.5 leading-relaxed drop-shadow-[0_1px_6px_rgba(56,189,248,0.4)]"
+                set:html={description}
+              />
+            )}
+            {callToAction && (
+              <div class="mt-3">
+                <Button {...callToAction} />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    )
+  }
+</WidgetWrapper>

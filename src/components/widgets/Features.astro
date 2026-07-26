@@ -1,0 +1,76 @@
+---
+import { Icon } from 'astro-icon/components';
+import Button from '~/components/ui/Button.astro';
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import type { Features as Props } from '~/types';
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline = await Astro.slots.render('tagline'),
+  items = [],
+  columns = 2,
+  defaultIcon,
+
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+
+const columnsClass =
+  columns === 4
+    ? 'lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'
+    : columns === 3
+      ? 'lg:grid-cols-3 sm:grid-cols-2'
+      : columns === 2
+        ? 'sm:grid-cols-2'
+        : '';
+---
+
+<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-5xl ${classes?.container ?? ''}`} bg={bg}>
+  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
+
+  {
+    items.length > 0 && (
+      <div class:list={['grid mx-auto gap-8 md:gap-y-12', columnsClass]}>
+        {items.map(({ title: itemTitle, description, icon, callToAction }) => (
+          <div class="intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-slide-up group">
+            <div class="flex flex-row max-w-md p-5 rounded-2xl transition-all duration-300 bg-transparent dark:bg-transparent backdrop-blur-none border-2 border-indigo-500/30 hover:border-cyan-400 dark:hover:border-cyan-400 shadow-xl hover:shadow-2xl hover:shadow-cyan-500/25 group-hover:-translate-y-1">
+              {(icon || defaultIcon) && (
+                <div class="flex justify-center shrink-0">
+                  <Icon
+                    name={icon || defaultIcon}
+                    class="w-10 h-10 md:w-12 md:h-12 p-2 md:p-2.5 text-cyan-300 bg-gradient-to-br from-cyan-500/30 via-indigo-500/30 to-purple-500/30 border-2 border-cyan-400/50 rounded-2xl mr-4 rtl:ml-4 rtl:mr-0 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 shadow-lg shadow-cyan-500/30 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]"
+                  />
+                </div>
+              )}
+              <div class="mt-0.5">
+                {itemTitle && (
+                  <h3 class="text-xl md:text-[1.3rem] font-extrabold bg-gradient-to-r from-cyan-300 via-sky-200 to-purple-200 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(34,211,238,0.5)] group-hover:from-cyan-200 group-hover:to-pink-300 transition-all duration-300">
+                    {itemTitle}
+                  </h3>
+                )}
+                {description && (
+                  <p
+                    class:list={[
+                      { 'mt-2.5': itemTitle },
+                      'text-sm md:text-base font-medium text-slate-300 dark:text-cyan-100/90 leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]',
+                    ]}
+                    set:html={description}
+                  />
+                )}
+                {callToAction && (
+                  <div class:list={[{ 'mt-3': itemTitle || description }]}>
+                    <Button variant="link" {...callToAction} />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+</WidgetWrapper>

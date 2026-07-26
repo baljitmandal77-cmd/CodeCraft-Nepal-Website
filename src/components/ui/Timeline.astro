@@ -1,0 +1,75 @@
+---
+import { Icon } from 'astro-icon/components';
+import { twMerge } from 'tailwind-merge';
+import type { Item } from '~/types';
+
+export interface Props {
+  items?: Array<Item>;
+  defaultIcon?: string;
+  classes?: Record<string, string>;
+}
+
+const { items = [], classes = {}, defaultIcon } = Astro.props as Props;
+
+const {
+  container: containerClass = '',
+  panel: panelClass = '',
+  title: titleClass = '',
+  description: descriptionClass = '',
+  icon: defaultIconClass = 'text-cyan-300 bg-gradient-to-br from-cyan-500/30 via-indigo-500/30 to-purple-500/30 border-2 border-cyan-400/60 shadow-lg shadow-cyan-500/30 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]',
+} = classes;
+---
+
+{
+  items && items.length > 0 && (
+    <div class={containerClass}>
+      {items.map(({ title, description, icon, classes: itemClasses = {} }, index = 0) => (
+        <div
+          class={twMerge(
+            'flex intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade',
+            panelClass,
+            itemClasses?.panel
+          )}
+        >
+          <div class="flex flex-col items-center mr-4 rtl:mr-0 rtl:ml-4">
+            <div>
+              <div class="flex items-center justify-center">
+                {(icon || defaultIcon) && (
+                  <Icon
+                    name={icon || defaultIcon}
+                    class={twMerge('w-10 h-10 p-2 rounded-full border-2', defaultIconClass, itemClasses?.icon)}
+                  />
+                )}
+              </div>
+            </div>
+            {index !== items.length - 1 && (
+              <div class="w-0.5 h-full bg-gradient-to-b from-cyan-400/60 via-purple-500/50 to-indigo-500/30 my-1" />
+            )}
+          </div>
+          <div class={`pt-1 ${index !== items.length - 1 ? 'pb-8' : ''}`}>
+            {title && (
+              <p
+                class={twMerge(
+                  'text-lg sm:text-xl font-extrabold bg-gradient-to-r from-cyan-300 via-sky-200 to-purple-200 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(34,211,238,0.5)]',
+                  titleClass,
+                  itemClasses?.title
+                )}
+                set:html={title}
+              />
+            )}
+            {description && (
+              <p
+                class={twMerge(
+                  'text-sm sm:text-base font-semibold text-cyan-100/90 dark:text-cyan-100/90 mt-2 leading-relaxed drop-shadow-[0_1px_6px_rgba(56,189,248,0.45)]',
+                  descriptionClass,
+                  itemClasses?.description
+                )}
+                set:html={description}
+              />
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}

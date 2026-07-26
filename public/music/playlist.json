@@ -1,0 +1,22 @@
+[
+  {
+    "title": "🎧 Song 1 - Lofi Chill Study Beats",
+    "url": "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3"
+  },
+  {
+    "title": "🚀 Song 2 - Cyberpunk Beats",
+    "url": "/music/song2.mp3"
+  },
+  {
+    "title": "🎹 Song 3 - Ambient Piano",
+    "url": "/music/song3.mp3"
+  },
+  {
+    "title": "✨ Song 4 - Chill Lofi Focus",
+    "url": "/music/song4.mp3"
+  },
+  {
+    "title": "🎧 Song 5 - Deep Work Flow",
+    "url": "/music/song5.mp3"
+  }
+]

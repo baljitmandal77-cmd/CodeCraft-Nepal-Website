@@ -1,0 +1,660 @@
+---
+// Infinity Code Labs Modern </> Code Logo
+---
+
+<div class="flex items-center gap-2.5 group select-none logo-container">
+  <!-- Code Icon Container -->
+  <div
+    class="logo-icon-box relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-cyan-400 text-white shadow-md shadow-blue-500/10 dark:shadow-cyan-400/5 transition-all duration-300 group-hover:scale-105 group-hover:rotate-3"
+  >
+    <!-- Icon Symbol (Infinity + Code beautifully integrated) -->
+    <svg
+      class="w-7 h-7 select-none relative z-10 transition-transform duration-300 group-hover:scale-110 animate-logo-glow"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      style="color: #ffffff; font-weight: bold; font-style: normal;"
+    >
+      <!-- Only the Infinity Loop and Code Brackets remain inside the core logo symbol! -->
+      <!-- Infinity loop in exact center -->
+      <path
+        d="M12 12c-0.8-1-1.6-1.5-2.5-1.5-1.5 0-2.5 1.2-2.5 2.7s1 2.7 2.5 2.7c.9 0 1.7-.5 2.5-1.5.8 1 1.6 1.5 2.5 1.5 1.5 0 2.5-1.2 2.5-2.7s-1-2.7-2.5-2.7c-.9 0-1.7.5-2.5 1.5z"
+        class="logo-infinity-path origin-center transition-all duration-700 ease-out animate-infinity-pulse"
+        style="transform-box: fill-box; transform-origin: center;"
+        stroke-width="1.8"></path>
+      <!-- Left angle bracket (<) -->
+      <path
+        d="M 5 9 L 2 12 L 5 15"
+        class="logo-bracket-path origin-center transition-all duration-700 ease-out"
+        style="transform-box: fill-box; transform-origin: center;"
+        stroke-width="2"></path>
+      <!-- Right angle bracket (>) -->
+      <path
+        d="M 19 9 L 22 12 L 19 15"
+        class="logo-bracket-path origin-center transition-all duration-700 ease-out"
+        style="transform-box: fill-box; transform-origin: center;"
+        stroke-width="2"></path>
+    </svg>
+    <!-- Animated Glow Background -->
+    <div
+      class="absolute -inset-0.5 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-cyan-400 opacity-0 group-hover:opacity-30 blur-md transition-all duration-300"
+    >
+    </div>
+  </div>
+
+  <!-- Text Branding -->
+  <span
+    class="relative self-center text-xl font-extrabold tracking-tight text-gray-900 whitespace-nowrap dark:text-white flex items-center group/text"
+  >
+    <!-- Background Ambient Glow/Shadow behind logo text -->
+    <span
+      class="absolute -inset-1.5 rounded-xl bg-gradient-to-r from-blue-600/15 via-purple-500/20 to-rose-500/15 dark:from-cyan-400/25 dark:via-fuchsia-400/25 dark:to-rose-400/25 blur-md opacity-70 group-hover/text:opacity-100 transition-all duration-300 pointer-events-none -z-10"
+    ></span>
+
+    <!-- Hidden placeholder to reserve exact space -->
+    <span class="opacity-0 invisible flex flex-col items-start leading-none -mt-1">
+      <span class="font-black flex items-center">Infinity<span class="w-[2.5px] ml-[2px]"></span></span>
+      <span class="font-bold tracking-[0.3em] text-[0.52em] uppercase text-gray-500 mt-0.5 px-1.5 py-0.5"
+        >CODE LABS</span
+      >
+    </span>
+
+    <!-- Absolute container for the typing text -->
+    <span class="absolute inset-0 flex flex-col items-start leading-none -mt-1">
+      <span class="flex items-center">
+        <span
+          class="logo-text-codecraft bg-gradient-to-r from-blue-600 via-purple-500 to-indigo-600 dark:from-blue-400 dark:via-fuchsia-400 dark:to-cyan-400 bg-[length:200%_auto] animate-text-shine bg-clip-text text-transparent font-black inline-block text-left drop-shadow-[0_0_10px_rgba(59,130,246,0.5)] dark:drop-shadow-[0_0_12px_rgba(34,211,238,0.7)]"
+          >Infinity</span
+        >
+        <span
+          class="logo-cursor-1 inline-block w-[2.5px] h-[20px] ml-[2px] bg-indigo-600 dark:bg-cyan-400 rounded-sm shadow-[0_0_8px_theme(colors.cyan.400)]"
+        ></span>
+      </span>
+      <span class="flex items-center">
+        <span
+          class="logo-text-nepal inline-block text-left text-[0.52em] uppercase font-extrabold tracking-[0.3em] bg-gradient-to-r from-cyan-400 via-sky-300 to-rose-400 dark:from-cyan-300 dark:via-fuchsia-300 dark:to-rose-300 bg-clip-text text-transparent mt-0.5 transition-transform duration-300 group-hover/text:scale-[1.05] origin-left drop-shadow-[0_0_12px_rgba(34,211,238,0.8)] dark:drop-shadow-[0_0_14px_rgba(34,211,238,0.9)] px-1.5 py-0.5 rounded bg-cyan-500/15 dark:bg-cyan-400/20 border border-cyan-400/40 dark:border-cyan-300/50 shadow-[0_0_15px_rgba(34,211,238,0.4)]"
+          >CODE LABS</span
+        >
+        <span
+          class="logo-cursor-2 inline-block w-[1.5px] h-[10px] ml-[2px] mt-[2px] bg-indigo-600 dark:bg-cyan-400 rounded-sm shadow-[0_0_8px_theme(colors.cyan.400)] hidden"
+        ></span>
+      </span>
+    </span>
+
+    <!-- Magic Sparkles (pseudo-elements via CSS) -->
+    <span
+      class="absolute inset-0 pointer-events-none sparkle-container opacity-0 group-hover/text:opacity-100 transition-opacity duration-300"
+    ></span>
+  </span>
+</div>
+
+<style>
+  .stop-color-blue {
+    stop-color: #2563eb;
+  } /* blue-600 */
+  .stop-color-purple {
+    stop-color: #a855f7;
+  } /* purple-500 */
+  .stop-color-indigo {
+    stop-color: #4f46e5;
+  } /* indigo-600 */
+  .stop-color-cyan {
+    stop-color: #22d3ee;
+  } /* cyan-400 */
+
+  .animate-infinity-pulse {
+    animation: infinity-pulse 2s ease-in-out infinite;
+  }
+  @keyframes infinity-pulse {
+    0% {
+      transform: scale(0.95);
+      opacity: 0.8;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 1;
+      filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
+    }
+    100% {
+      transform: scale(0.95);
+      opacity: 0.8;
+    }
+  }
+
+  .animate-logo-glow {
+    animation: logo-glow 2.5s ease-in-out infinite alternate;
+  }
+  @keyframes logo-glow {
+    0% {
+      filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.6));
+      color: #ffffff;
+    }
+    50% {
+      filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.8)) drop-shadow(0 0 10px rgba(59, 130, 246, 0.6));
+      color: #e0e7ff;
+    }
+    100% {
+      filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.9)) drop-shadow(0 0 15px rgba(59, 130, 246, 0.7));
+      color: #cffafe;
+    }
+  }
+
+  .cursor-blink {
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .animate-text-shine {
+    animation: text-shine 3s linear infinite;
+  }
+
+  @keyframes text-shine {
+    to {
+      background-position: 200% center;
+    }
+  }
+
+  /* Magic sparkles logic */
+  .sparkle-container::before,
+  .sparkle-container::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22d3ee;
+    box-shadow: 0 0 10px 2px #22d3ee;
+    opacity: 0;
+  }
+
+  .sparkle-container::before {
+    top: -5px;
+    left: 20%;
+    animation: sparkle-float-1 2s ease-in-out infinite;
+  }
+
+  .sparkle-container::after {
+    bottom: -5px;
+    right: 20%;
+    animation: sparkle-float-2 2.5s ease-in-out infinite;
+  }
+
+  @keyframes sparkle-float-1 {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(0);
+      opacity: 0;
+    }
+    50% {
+      transform: translate(10px, -15px) scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes sparkle-float-2 {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(0);
+      opacity: 0;
+    }
+    50% {
+      transform: translate(-10px, 15px) scale(1.2);
+      opacity: 1;
+    }
+  }
+
+  /* Flying Rocket Dynamic Animations (Advanced 3D Launch) */
+</style>
+
+<script is:inline>
+  (function () {
+    function initLogoTyping() {
+      const codecraftSpans = document.querySelectorAll('.logo-text-codecraft');
+      const nepalSpans = document.querySelectorAll('.logo-text-nepal');
+      const cursors1 = document.querySelectorAll('.logo-cursor-1');
+      const cursors2 = document.querySelectorAll('.logo-cursor-2');
+
+      const word1 = 'Infinity';
+      const word2 = 'CODE LABS';
+
+      codecraftSpans.forEach((span, index) => {
+        if (span.dataset.typed) return; // Skip if already typed
+        span.dataset.typed = 'true';
+
+        // Clear text content in case of re-run
+        span.textContent = '';
+        const nepalSpan = nepalSpans[index];
+        const cursor1 = cursors1[index];
+        const cursor2 = cursors2[index];
+
+        if (nepalSpan) {
+          nepalSpan.textContent = '';
+        }
+
+        if (cursor1) {
+          cursor1.classList.add('cursor-blink');
+          cursor1.style.display = 'inline-block';
+          cursor1.style.opacity = '1';
+        }
+        if (cursor2) {
+          cursor2.classList.remove('cursor-blink');
+          cursor2.style.display = 'none';
+          cursor2.style.opacity = '1';
+        }
+
+        let i = 0;
+        let j = 0;
+
+        function typeWord1() {
+          if (i < word1.length) {
+            span.textContent += word1.charAt(i);
+            i++;
+            setTimeout(typeWord1, 80 + Math.random() * 40);
+          } else {
+            if (cursor1) cursor1.style.display = 'none';
+            if (cursor2) {
+              cursor2.style.display = 'inline-block';
+              cursor2.classList.add('cursor-blink');
+            }
+            setTimeout(typeWord2, 150);
+          }
+        }
+
+        function typeWord2() {
+          if (nepalSpan && j < word2.length) {
+            nepalSpan.textContent += word2.charAt(j);
+            j++;
+            setTimeout(typeWord2, 80 + Math.random() * 40);
+          } else {
+            // Leave cursor blinking for a bit then hide
+            setTimeout(() => {
+              if (cursor2) {
+                cursor2.style.transition = 'opacity 0.5s ease';
+                cursor2.style.opacity = '0';
+                setTimeout(() => (cursor2.style.display = 'none'), 500);
+              }
+            }, 3000);
+          }
+        }
+
+        setTimeout(typeWord1, 300);
+      });
+    }
+
+    function initRocketFlight() {
+      const iconBoxes = document.querySelectorAll('.logo-icon-box');
+
+      // Rocket magic runs only on the homepage
+      const isHomepage = window.location.pathname === '/' || window.location.pathname === '/index.html';
+      if (!isHomepage) {
+        iconBoxes.forEach((box) => {
+          box.style.opacity = '1';
+          box.style.transform = 'scale(1)';
+        });
+        initLogoTyping();
+        return;
+      }
+
+      const infinityPaths = document.querySelectorAll('.logo-infinity-path');
+      if (infinityPaths.length === 0) {
+        iconBoxes.forEach((box) => {
+          box.style.opacity = '1';
+          box.style.transform = 'scale(1)';
+        });
+        initLogoTyping();
+        return;
+      }
+
+      // Hide ONLY the header logo icon box on homepage so it reveals when rocket lands!
+      const headerIconBox = document.querySelector('header .logo-icon-box') || iconBoxes[0];
+      iconBoxes.forEach((box) => {
+        if (box === headerIconBox) {
+          box.style.opacity = '0';
+          box.style.transform = 'scale(0.2)';
+          box.style.transition = 'none';
+        } else {
+          box.style.opacity = '1';
+          box.style.transform = 'scale(1)';
+        }
+      });
+
+      // Find the first visible logo SVG to act as our bulletproof target
+      let logoSvg = null;
+      for (const path of infinityPaths) {
+        const svg = path.closest('svg');
+        if (svg) {
+          const rect = svg.getBoundingClientRect();
+          if (rect.width > 0 && rect.height > 0) {
+            logoSvg = svg;
+            break;
+          }
+        }
+      }
+      if (!logoSvg) logoSvg = infinityPaths[0].closest('svg');
+      if (!logoSvg) {
+        iconBoxes.forEach((box) => {
+          box.style.opacity = '1';
+          box.style.transform = 'scale(1)';
+        });
+        return;
+      }
+
+      // Keep the infinity loops and code brackets fully visible from the start so the logo is never empty!
+
+      // Check if another flight actor is already active
+      if (document.getElementById('flying-rocket-container')) return;
+
+      // Spawn the beautiful, custom SVG animated flying rocket
+      const rocket = document.createElement('div');
+      rocket.id = 'flying-rocket-container';
+      rocket.style.position = 'fixed';
+      rocket.style.pointerEvents = 'none';
+      rocket.style.zIndex = '99999';
+      rocket.style.width = '100px';
+      rocket.style.height = '100px';
+      rocket.style.transform = 'translate(-50%, -50%)';
+      rocket.style.top = '-150px';
+      rocket.style.left = '-150px';
+
+      rocket.innerHTML = `
+        <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+          <!-- Exhaust Glow / Shadow under rocket -->
+          <div style="
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(255, 77, 0, 0.65) 0%, rgba(255, 183, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(4px);
+            z-index: -1;
+          "></div>
+          
+          <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.35));">
+            <style>
+              @keyframes flame-flicker {
+                0%, 100% { transform: scale(1) translateY(0); opacity: 0.95; }
+                50% { transform: scale(0.85, 1.15) translateY(2px); opacity: 0.8; }
+              }
+              @keyframes rocket-vibrate {
+                0%, 100% { transform: translate(0, 0); }
+                25% { transform: translate(-0.5px, 0.5px) rotate(-0.5deg); }
+                75% { transform: translate(0.5px, -0.5px) rotate(0.5deg); }
+              }
+              .flame-outer {
+                animation: flame-flicker 0.15s ease-in-out infinite alternate;
+                transform-origin: 50px 70px;
+              }
+              .flame-inner {
+                animation: flame-flicker 0.1s ease-in-out infinite alternate;
+                transform-origin: 50px 70px;
+              }
+              .rocket-group {
+                animation: rocket-vibrate 0.08s linear infinite;
+              }
+            </style>
+
+            <!-- Glowing Exhaust Flame -->
+            <!-- Outer Flame -->
+            <path class="flame-outer" d="M42 70 Q50 95 58 70 L50 85 Z" fill="#ff4d00" />
+            <!-- Inner Flame -->
+            <path class="flame-inner" d="M45 70 Q50 88 55 70 L50 80 Z" fill="#ffb700" />
+            <!-- Core Blue Jet -->
+            <path class="flame-inner" d="M48 70 Q50 78 52 70 L50 75 Z" fill="#00e5ff" />
+
+            <g class="rocket-group">
+              <!-- Thruster / Engine nozzle -->
+              <path d="M44 65 L56 65 L54 70 L46 70 Z" fill="#4a5568" />
+
+              <!-- Left Fin -->
+              <path d="M40 50 L30 65 L40 65 Z" fill="#ef4444" />
+              <path d="M30 65 L40 65 L40 60 Z" fill="#b91c1c" /> <!-- fin shadow -->
+
+              <!-- Right Fin -->
+              <path d="M60 50 L70 65 L60 65 Z" fill="#ef4444" />
+              <path d="M70 65 L60 65 L60 60 Z" fill="#b91c1c" /> <!-- fin shadow -->
+
+              <!-- Rocket Body -->
+              <path d="M40 30 Q40 15 50 10 Q60 15 60 30 L60 65 L40 65 Z" fill="#f8fafc" />
+              
+              <!-- Rocket Body shading (3D curved effect) -->
+              <path d="M50 10 Q60 15 60 30 L60 65 L50 65 Z" fill="#e2e8f0" />
+
+              <!-- Rocket Nose Cone -->
+              <path d="M40 30 Q40 15 50 10 Q60 15 60 30 Z" fill="#ef4444" />
+              <!-- Nose Cone shading -->
+              <path d="M50 10 Q60 15 60 30 L50 30 Z" fill="#b91c1c" />
+
+              <!-- Round Window (Glass) -->
+              <circle cx="50" cy="35" r="7" fill="#0ea5e9" stroke="#cbd5e1" stroke-width="2" />
+              <!-- Glass Highlight -->
+              <path d="M46 32 A 5 5 0 0 1 52 31" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+            </g>
+          </svg>
+        </div>
+      `;
+
+      document.body.appendChild(rocket);
+
+      // Start position: Direct launch vertically from the bottom of the screen, perfectly aligned with the target Logo's horizontal (X) axis.
+      // This is a REAL launch: straight up, with intense smoke particles, screen vibrations/shaking on ignition!
+      const svgRect = logoSvg.getBoundingClientRect();
+      const targetX = svgRect.left + svgRect.width / 2;
+      const targetY = svgRect.top + svgRect.height * 0.35;
+
+      const startX = targetX;
+      // Rocket starts sitting proud at the bottom of the screen (on its launcher pad)
+      const startY = window.innerHeight - 80;
+
+      rocket.style.left = `${startX}px`;
+      rocket.style.top = `${startY}px`;
+      rocket.style.transform = `translate(-50%, -50%) rotate(0deg) scale(1.3)`;
+
+      // Spark/Smoke particles helper function
+      function spawnParticle(x, y, isIgnition = false) {
+        const p = document.createElement('div');
+        p.style.position = 'fixed';
+        p.style.pointerEvents = 'none';
+        p.style.zIndex = '99998';
+        p.style.left = `${x}px`;
+        p.style.top = `${y}px`;
+        p.style.borderRadius = '50%';
+
+        const size = isIgnition ? 15 + Math.random() * 25 : 8 + Math.random() * 16;
+        p.style.width = `${size}px`;
+        p.style.height = `${size}px`;
+
+        const rand = Math.random();
+        let bg = 'rgba(220, 220, 225, 0.7)'; // thick steam/grey smoke
+        let blur = '6px';
+        if (rand < 0.25) {
+          bg = 'rgba(255, 69, 0, 0.9)'; // fire red/orange
+          blur = '3px';
+        } else if (rand < 0.5) {
+          bg = 'rgba(255, 165, 0, 0.9)'; // fire orange/yellow
+          blur = '3px';
+        } else if (rand < 0.6) {
+          bg = 'rgba(0, 229, 255, 0.85)'; // hot blue core
+          blur = '2px';
+        }
+
+        p.style.background = bg;
+        p.style.filter = `blur(${blur})`;
+        p.style.transform = 'translate(-50%, -50%) scale(1)';
+        document.body.appendChild(p);
+
+        const start = performance.now();
+        const duration = isIgnition ? 1200 + Math.random() * 800 : 600 + Math.random() * 600;
+        const driftX = (Math.random() - 0.5) * (isIgnition ? 120 : 40);
+        const driftY = isIgnition ? (Math.random() - 0.3) * 30 : 30 + Math.random() * 40; // drifts downwards from exhaust
+
+        function animateP(now) {
+          const elapsed = now - start;
+          const progress = elapsed / duration;
+          if (progress >= 1) {
+            p.remove();
+          } else {
+            p.style.left = `${x + driftX * progress}px`;
+            p.style.top = `${y + driftY * progress}px`;
+            p.style.transform = `translate(-50%, -50%) scale(${1 + progress * (isIgnition ? 4 : 5)})`;
+            p.style.opacity = (1 - progress) * 0.75;
+            requestAnimationFrame(animateP);
+          }
+        }
+        requestAnimationFrame(animateP);
+      }
+
+      // 1. Ignition/Pre-launch Phase: The engines start, massive smoke, heavy vibration!
+      const ignitionDuration = 900; // 0.9s of majestic ignition smoke and rumbling
+      const launchDuration = 1800; // 1.8s of fast vertical climb and acceleration
+      const totalDuration = ignitionDuration + launchDuration;
+      const startTime = performance.now();
+
+      function animate(now) {
+        const elapsed = now - startTime;
+
+        if (elapsed < ignitionDuration) {
+          // PHASE 1: IGNITION & RUMBLE
+
+          // Heavy screen shake at ignition
+          const shakeX = (Math.random() - 0.5) * 8;
+          const shakeY = (Math.random() - 0.5) * 8;
+          document.body.style.transform = `translate(${shakeX}px, ${shakeY}px)`;
+
+          // Shake rocket element itself
+          const rx = (Math.random() - 0.5) * 4;
+          const ry = (Math.random() - 0.5) * 4;
+          rocket.style.left = `${startX + rx}px`;
+          rocket.style.top = `${startY + ry}px`;
+          rocket.style.transform = `translate(-50%, -50%) rotate(${(Math.random() - 0.5) * 2}deg) scale(1.3)`;
+
+          // Spawn heavy exhaust smoke & fire clouds at base
+          if (Math.random() < 0.6) {
+            spawnParticle(startX + (Math.random() - 0.5) * 30, startY + 35, true);
+          }
+
+          requestAnimationFrame(animate);
+        } else if (elapsed < totalDuration) {
+          // PHASE 2: LAUNCH & ACCELERATION
+          const launchElapsed = elapsed - ignitionDuration;
+          const progress = Math.min(launchElapsed / launchDuration, 1);
+
+          // Get fresh targets in case of layout changes
+          const freshSvgRect = logoSvg.getBoundingClientRect();
+          const freshTargetX = freshSvgRect.left + freshSvgRect.width / 2;
+          const freshTargetY = freshSvgRect.top + freshSvgRect.height * 0.35;
+
+          // Accelerating upwards vertically (straight line, no crazy loopings)
+          // We use power ease-in-out or simple ease-in to start heavy and blast off extremely fast
+          const easeIn = Math.pow(progress, 2.5); // accelerating speed curve
+          const currentY = startY - easeIn * (startY - freshTargetY);
+
+          // X remains perfectly straight toward the logo, correcting slightly for any offset
+          const currentX = startX + progress * (freshTargetX - startX);
+
+          // Camera shake decays as rocket ascends high into the sky
+          const shakeIntensity = 6 * (1 - progress);
+          const shakeX = (Math.random() - 0.5) * shakeIntensity;
+          const shakeY = (Math.random() - 0.5) * shakeIntensity;
+          document.body.style.transform = `translate(${shakeX}px, ${shakeY}px)`;
+
+          // Update position of rocket (facing 100% straight up - 0 degrees!)
+          // It scales down to dock into the small logo header gracefully
+          const scale = 1.3 - progress * 0.8;
+          rocket.style.left = `${currentX}px`;
+          rocket.style.top = `${currentY}px`;
+          rocket.style.transform = `translate(-50%, -50%) rotate(0deg) scale(${scale})`;
+
+          // Spawn high-speed trail particles
+          if (Math.random() < 0.5) {
+            spawnParticle(currentX + (Math.random() - 0.5) * 10, currentY + 25);
+          }
+
+          requestAnimationFrame(animate);
+        } else {
+          // PHASE 3: TOUCH DOWN & REVEAL SYMBOL
+          document.body.style.transform = '';
+          document.body.style.removeProperty('transform'); // Reset camera/screen position perfectly
+
+          // Reveal the full logo icon box container with a smooth pop-in effect at touchdown!
+          iconBoxes.forEach((box) => {
+            box.style.transition = 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            box.style.opacity = '1';
+            box.style.transform = 'scale(1)';
+          });
+
+          // Make the infinity loops appear inside the logos at the moment of touchdown!
+          const infinityPaths = document.querySelectorAll('.logo-infinity-path');
+          infinityPaths.forEach((el) => {
+            el.style.opacity = '1';
+            el.style.transform = 'scale(1)';
+          });
+
+          // Make the brackets appear inside the logos!
+          const bracketPaths = document.querySelectorAll('.logo-bracket-path');
+          bracketPaths.forEach((el) => {
+            el.style.opacity = '1';
+            el.style.transform = 'scale(1)';
+          });
+
+          // The logo symbol (infinity loop and code brackets) is already fully visible, and the flying launch vehicle has completed its realistic vertical launch trajectory!
+
+          // Celebratory small landing flash particles at the logo target!
+          for (let i = 0; i < 15; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const dist = 5 + Math.random() * 20;
+            const px = targetX + Math.cos(angle) * dist;
+            const py = targetY + Math.sin(angle) * dist;
+            spawnParticle(px, py, false);
+          }
+
+          // Smooth glowing pulse on the brand icon container to celebrate successful launch insertion!
+          const parentIcon = logoSvg.closest('.rounded-xl');
+          if (parentIcon) {
+            parentIcon.style.transition = 'all 0.5s ease';
+            parentIcon.classList.add('ring-4', 'ring-cyan-400/50', 'scale-110');
+            setTimeout(() => {
+              parentIcon.classList.remove('ring-4', 'ring-cyan-400/50', 'scale-110');
+            }, 800);
+          }
+
+          // Fade out the physical launch vehicle
+          rocket.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+          rocket.style.opacity = '0';
+          rocket.style.transform = `translate(-50%, -50%) scale(0.3)`;
+
+          setTimeout(() => {
+            rocket.remove();
+          }, 450);
+
+          // Trigger "Infinity CODE LABS" typing animation right as rocket touchdown completes!
+          setTimeout(() => {
+            initLogoTyping();
+          }, 150);
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    // Start flow: Rocket launch runs first on homepage, then triggers initLogoTyping after landing
+    initRocketFlight();
+
+    document.addEventListener('astro:page-load', () => {
+      initRocketFlight();
+    });
+  })();
+</script>

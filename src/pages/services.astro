@@ -1,0 +1,133 @@
+---
+import Features2 from '~/components/widgets/Features2.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Our Services | Infinity Code Labs',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero -->
+
+  <Hero
+    tagline="<span class='inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full text-[11px] xs:text-xs sm:text-sm font-extrabold text-cyan-300 bg-cyan-500/10 border border-cyan-400/50 shadow-lg shadow-cyan-500/20 uppercase tracking-wider sm:tracking-widest whitespace-nowrap mb-2'><span class='w-2 h-2 rounded-full bg-cyan-400 animate-pulse shrink-0'></span> Our Services</span>"
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Request Free Consultation',
+        href: '/contact',
+      },
+      {
+        text: 'Contact Us',
+        href: '/contact',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=80',
+      alt: 'Infinity Code Labs Services',
+    }}
+  >
+    <Fragment slot="title">
+      <span
+        class="text-3xl sm:text-5xl md:text-6xl flex flex-col md:inline leading-tight tracking-tight font-extrabold items-center"
+      >
+        <span
+          class="inline-block px-3.5 py-1 sm:px-5 sm:py-1.5 my-1 rounded-2xl border-2 border-cyan-400/60 dark:border-cyan-400/50 bg-slate-900/40 text-cyan-200 dark:text-cyan-300 shadow-xl shadow-cyan-500/20 drop-shadow-[0_2px_10px_rgba(34,211,238,0.6)] animate-text-glow font-extrabold"
+        >
+          Professional IT Services
+        </span>
+        <span
+          class="inline-block px-3.5 py-1 sm:px-5 sm:py-1.5 my-1 rounded-2xl border-2 border-purple-400/60 dark:border-purple-400/50 bg-slate-900/40 text-purple-200 dark:text-purple-300 shadow-xl shadow-purple-500/20 drop-shadow-[0_2px_10px_rgba(192,132,252,0.6)] animate-text-glow-purple font-extrabold"
+        >
+          For Modern Businesses
+        </span>
+      </span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      <span
+        class="inline-block p-4 sm:p-6 rounded-3xl border-2 border-cyan-400/40 dark:border-cyan-400/50 bg-transparent dark:bg-transparent backdrop-blur-none shadow-2xl shadow-cyan-500/20 text-slate-100 dark:text-cyan-100 font-medium text-sm sm:text-lg leading-relaxed drop-shadow-[0_2px_12px_rgba(34,211,238,0.35)]"
+      >
+        We help startups, schools, businesses and organizations build secure, scalable and modern digital solutions with
+        cutting-edge technologies.
+      </span>
+    </Fragment>
+  </Hero>
+
+  <style>
+    .animate-text-gradient {
+      animation: text-gradient 4s linear infinite;
+    }
+    @keyframes text-gradient {
+      to {
+        background-position: 200% center;
+      }
+    }
+  </style>
+
+  <!-- Services -->
+
+  <Features2
+    title="Our Professional Services"
+    subtitle="Complete IT Solutions for Individuals, Businesses, Schools and Organizations."
+    columns={3}
+    items={[
+      {
+        title: 'Website Development',
+        description:
+          'Business Websites, School Websites, E-Commerce, Portfolio, Landing Pages and Custom Web Applications.',
+        icon: 'tabler:world-www',
+      },
+
+      {
+        title: 'Software Development',
+        description: 'ERP Systems, Billing Software, School Management Systems and Custom Desktop Applications.',
+        icon: 'tabler:device-desktop-code',
+      },
+
+      {
+        title: 'Mobile App Development',
+        description: 'Professional Android & iOS Applications with modern UI and powerful performance.',
+        icon: 'tabler:device-mobile-code',
+      },
+
+      {
+        title: 'Cloud Hosting',
+        description: 'VPS Hosting, Dedicated Servers, Cloud Infrastructure and Email Hosting Solutions.',
+        icon: 'tabler:server',
+      },
+
+      {
+        title: 'Cyber Security',
+        description: 'Website Security, Server Hardening, Malware Removal and Security Consultation.',
+        icon: 'tabler:shield-lock',
+      },
+
+      {
+        title: 'Graphics & Branding',
+        description: 'Professional Logo Design, Brand Identity, Posters, Banners and Marketing Graphics.',
+        icon: 'tabler:palette',
+      },
+
+      {
+        title: 'SEO & Digital Marketing',
+        description: 'Google SEO, Facebook Ads, Google Ads and Complete Digital Marketing Solutions.',
+        icon: 'tabler:search',
+      },
+
+      {
+        title: 'Domain & Email',
+        description: 'Domain Registration, Business Email, DNS Management and SSL Installation.',
+        icon: 'tabler:world',
+      },
+
+      {
+        title: 'Technical Support',
+        description: '24×7 Technical Support, Server Maintenance and Complete IT Consultancy.',
+        icon: 'tabler:headset',
+      },
+    ]}
+  />
+</Layout>

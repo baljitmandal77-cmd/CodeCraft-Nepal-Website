@@ -1,0 +1,6 @@
+{
+  "name": "Infinity Code Labs",
+  "description": "Infinity Code Labs: A free, high-performance website template built with Astro 6 and Tailwind CSS v4.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

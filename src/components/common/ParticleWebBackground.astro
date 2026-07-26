@@ -1,0 +1,148 @@
+---
+
+---
+
+<div id="particle-web-container" class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+  <canvas
+    id="particle-web-canvas"
+    class="w-full h-full block opacity-60 dark:opacity-70 transition-opacity duration-500"></canvas>
+</div>
+
+<script is:inline>
+  (function () {
+    function initParticleWeb() {
+      const canvas = document.getElementById('particle-web-canvas');
+      if (!canvas) return;
+      if (canvas.dataset.initialized === 'true') return;
+      canvas.dataset.initialized = 'true';
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      const mouse = {
+        x: null,
+        y: null,
+        radius: 180,
+      };
+
+      const handleMouseMove = (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      };
+
+      const handleMouseLeave = () => {
+        mouse.x = null;
+        mouse.y = null;
+      };
+
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseleave', handleMouseLeave);
+      window.addEventListener('touchmove', (e) => {
+        if (e.touches && e.touches.length > 0) {
+          mouse.x = e.touches[0].clientX;
+          mouse.y = e.touches[0].clientY;
+        }
+      });
+      window.addEventListener('touchend', handleMouseLeave);
+
+      function resize() {
+        if (!canvas) return;
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+
+      window.addEventListener('resize', resize);
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.7;
+          this.vy = (Math.random() - 0.5) * 0.7;
+          this.radius = Math.random() * 1.8 + 1;
+        }
+
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+        }
+
+        draw(isDark) {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = isDark ? 'rgba(56, 189, 248, 0.75)' : 'rgba(37, 99, 235, 0.65)';
+          ctx.fill();
+        }
+      }
+
+      const count = Math.min(Math.floor((width * height) / 14000), 80);
+      const particles = [];
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
+
+      function animate() {
+        if (!document.getElementById('particle-web-canvas')) return;
+
+        ctx.clearRect(0, 0, width, height);
+
+        const isDark = document.documentElement.classList.contains('dark');
+        const maxDist = 135;
+
+        for (let i = 0; i < particles.length; i++) {
+          const p1 = particles[i];
+          p1.update();
+          p1.draw(isDark);
+
+          // Connect to mouse pointer
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = p1.x - mouse.x;
+            const dy = p1.y - mouse.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < mouse.radius) {
+              const alpha = (1 - dist / mouse.radius) * 0.65;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.strokeStyle = isDark ? `rgba(168, 85, 247, ${alpha})` : `rgba(99, 102, 241, ${alpha})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+
+          // Connect to other particles
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < maxDist) {
+              const alpha = (1 - dist / maxDist) * 0.45;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = isDark ? `rgba(56, 189, 248, ${alpha})` : `rgba(37, 99, 235, ${alpha})`;
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    }
+
+    initParticleWeb();
+    document.addEventListener('DOMContentLoaded', initParticleWeb);
+    document.addEventListener('astro:page-load', initParticleWeb);
+  })();
+</script>

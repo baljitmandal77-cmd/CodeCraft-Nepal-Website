@@ -1,0 +1,72 @@
+---
+import { APP_BLOG } from 'astrowind:config';
+
+import Grid from '~/components/blog/Grid.astro';
+
+import { getBlogPermalink } from '~/utils/permalinks';
+import { findLatestPosts } from '~/utils/blog';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import type { Widget } from '~/types';
+import Button from '~/components/ui/Button.astro';
+
+export interface Props extends Widget {
+  title?: string;
+  linkText?: string;
+  linkUrl?: string | URL;
+  information?: string;
+  count?: number;
+}
+
+const {
+  title = await Astro.slots.render('title'),
+  linkText = 'View all posts',
+  linkUrl = getBlogPermalink(),
+  information = await Astro.slots.render('information'),
+  count = 4,
+
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+
+const posts = APP_BLOG.isEnabled ? await findLatestPosts({ count }) : [];
+---
+
+{
+  APP_BLOG.isEnabled ? (
+    <WidgetWrapper id={id} isDark={isDark} containerClass={classes?.container as string} bg={bg}>
+      <div class="flex flex-col lg:justify-between lg:flex-row mb-8">
+        {title && (
+          <div class="md:max-w-sm">
+            <h2
+              class="text-3xl font-extrabold tracking-tight sm:text-4xl group font-heading mb-3 bg-gradient-to-r from-cyan-300 via-sky-200 to-purple-300 bg-clip-text text-transparent drop-shadow-[0_2px_12px_rgba(34,211,238,0.6)]"
+              set:html={title}
+            />
+            {APP_BLOG.list.isEnabled && linkText && linkUrl && (
+              <Button
+                variant="link"
+                href={linkUrl}
+                class="text-cyan-300 font-bold hover:text-cyan-200 drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]"
+              >
+                {' '}
+                {linkText} »
+              </Button>
+            )}
+          </div>
+        )}
+
+        {information && (
+          <p
+            class="text-slate-300 dark:text-cyan-100/90 font-medium text-sm sm:text-base lg:max-w-md drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]"
+            set:html={information}
+          />
+        )}
+      </div>
+
+      <Grid posts={posts} />
+    </WidgetWrapper>
+  ) : (
+    <Fragment />
+  )
+}

@@ -1,0 +1,103 @@
+---
+
+---
+
+<div
+  class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none opacity-20 dark:opacity-20 flex items-start justify-start pt-28 md:pt-36 px-4 sm:px-8 font-mono text-sm sm:text-base leading-relaxed text-slate-800 dark:text-green-400 select-none z-0"
+>
+  <div id="code-typing-container" class="whitespace-pre-wrap break-words max-w-full"></div>
+</div>
+
+<script is:inline>
+  (function () {
+    const codeSnippets = [
+      `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Infinity Code Labs</title>
+</head>
+<body>
+  <div id="app"></div>
+  <!-- Application Root -->
+</body>
+</html>`,
+      `function initializeApp(config) {
+  console.log("Initializing systems...");
+  const server = new Server(config.port);
+  server.start().then(() => {
+    console.log(\`Server running on \${config.port}\`);
+  });
+}`,
+      `const db = require('./database');
+const cache = require('./cache');
+
+async function fetchData(query) {
+  let data = await cache.get(query);
+  if (!data) {
+    data = await db.execute(query);
+    await cache.set(query, data);
+  }
+  return data;
+}`,
+      `class SecureConnection {
+  constructor(endpoint) {
+    this.endpoint = endpoint;
+    this.crypto = new CryptoModule();
+  }
+  
+  async connect() {
+    const handshake = await this.crypto.generateKeys();
+    return await fetch(this.endpoint, {
+      method: 'POST',
+      body: handshake
+    });
+  }
+}`,
+    ];
+
+    function initCodeTyping() {
+      const container = document.getElementById('code-typing-container');
+
+      if (container) {
+        if (container.dataset.typingStarted === 'true') return;
+        container.dataset.typingStarted = 'true';
+
+        container.textContent = ''; // clear first
+        let snippetIndex = 0;
+        let charIndex = 0;
+        let currentSnippet = codeSnippets[0];
+
+        function typeCode() {
+          if (!document.getElementById('code-typing-container')) return; // Check if still in DOM
+
+          if (charIndex < currentSnippet.length) {
+            const chunkSize = Math.floor(Math.random() * 3) + 1;
+            container.textContent += currentSnippet.substring(charIndex, charIndex + chunkSize);
+            charIndex += chunkSize;
+
+            setTimeout(typeCode, Math.random() * 40 + 20);
+          } else {
+            setTimeout(() => {
+              if (!document.getElementById('code-typing-container')) return;
+              container.textContent = '';
+              snippetIndex = (snippetIndex + 1) % codeSnippets.length;
+              currentSnippet = codeSnippets[snippetIndex];
+              charIndex = 0;
+              typeCode();
+            }, 2000);
+          }
+        }
+
+        setTimeout(typeCode, 500);
+      }
+    }
+
+    // Call it when script executes
+    initCodeTyping();
+
+    // Fallbacks for Astro View Transitions or DOM ready
+    document.addEventListener('DOMContentLoaded', initCodeTyping);
+    document.addEventListener('astro:page-load', initCodeTyping);
+  })();
+</script>

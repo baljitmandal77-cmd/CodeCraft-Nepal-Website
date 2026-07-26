@@ -1,0 +1,381 @@
+---
+import type { Form as Props } from '~/types';
+import Button from '~/components/ui/Button.astro';
+
+const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } = Astro.props;
+---
+
+<form id="contact-form" class="relative" action="https://formsubmit.co/ajax/baljitmandal66@gmail.com" method="POST">
+  <!-- Honeypot spam protection -->
+  <input type="text" name="_honey" style="display:none" />
+  <!-- Custom subject line indicating it is from Infinity Code Labs website -->
+  <input type="hidden" name="_subject" value="[Infinity Code Labs Website] New Contact Form Message" />
+  <!-- Website Source designation -->
+  <input type="hidden" name="website_source" value="Infinity Code Labs Official Website" />
+
+  {
+    inputs &&
+      inputs.map(
+        ({ type = 'text', name, label = '', autocomplete = 'on', placeholder = '' }) =>
+          name && (
+            <div class="mb-3.5">
+              {label && (
+                <label for={name} class="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  {label}
+                </label>
+              )}
+              <input
+                type={type}
+                name={name}
+                id={name}
+                autocomplete={autocomplete}
+                placeholder={placeholder}
+                class="py-2.5 px-3.5 sm:py-3 sm:px-4 block w-full text-sm sm:text-base rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 focus:border-blue-500 focus:ring-blue-500 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                required
+              />
+            </div>
+          )
+      )
+  }
+
+  {
+    textarea && (
+      <div class="mb-3.5">
+        <label for="textarea" class="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          {textarea.label}
+        </label>
+        <textarea
+          id="textarea"
+          name={textarea.name ? textarea.name : 'message'}
+          rows={textarea.rows ? textarea.rows : 4}
+          placeholder={textarea.placeholder}
+          class="py-2.5 px-3.5 sm:py-3 sm:px-4 block w-full text-sm sm:text-base rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 focus:border-blue-500 focus:ring-blue-500 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+          required
+        />
+      </div>
+    )
+  }
+
+  {
+    disclaimer && (
+      <div class="mt-3 flex items-start">
+        <div class="flex mt-0.5">
+          <input
+            id="disclaimer"
+            name="disclaimer"
+            type="checkbox"
+            required
+            class="cursor-pointer mt-1 py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+          />
+        </div>
+        <div class="ml-3">
+          <label for="disclaimer" class="cursor-pointer select-none text-sm text-gray-600 dark:text-gray-400">
+            {disclaimer.label}
+          </label>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    button && (
+      <div class="mt-6 grid">
+        <Button variant="primary" type="submit">
+          {button}
+        </Button>
+      </div>
+    )
+  }
+
+  <!-- Dynamic Success Alert Overlay with Blast Animation -->
+  <div
+    id="form-feedback-success-overlay"
+    class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center p-8 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl text-center select-none transition-all duration-500 transform scale-95 opacity-0"
+  >
+    <!-- Particle canvas/container for blast effect -->
+    <div id="success-particles" class="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl"></div>
+
+    <div class="relative z-10 flex flex-col items-center max-w-sm">
+      <div
+        class="success-icon-wrapper mb-6 p-4 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full shadow-lg shadow-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20 animate-bounce"
+      >
+        <svg class="w-12 h-12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      <h3 class="text-2xl font-black tracking-tight text-gray-900 dark:text-white mb-3">
+        Message Sent Successfully! 🎉
+      </h3>
+      <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+        Thank you! Your message has been sent successfully. We will get back to you shortly.
+      </p>
+
+      <!-- Tiny dynamic countdown bar -->
+      <div class="w-32 h-1.5 bg-gray-100 dark:bg-slate-800 rounded-full overflow-hidden">
+        <div
+          id="success-countdown-bar"
+          class="h-full bg-emerald-500 rounded-full transition-all duration-1000 ease-linear w-full"
+        >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Error Alert Message -->
+  <div
+    id="form-feedback-error"
+    class="hidden mt-6 p-4 bg-rose-50 border border-rose-200 dark:bg-rose-950/20 dark:border-rose-800 text-rose-800 dark:text-rose-300 rounded-xl flex items-start gap-3"
+  >
+    <svg
+      class="w-5 h-5 mt-0.5 flex-shrink-0 text-rose-600 dark:text-rose-400"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      viewBox="0 0 24 24"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    </svg>
+    <div>
+      <p class="font-semibold text-sm">Oops! Something went wrong.</p>
+      <p class="text-xs mt-0.5 opacity-90">
+        There was an issue sending your message. Please try again, or feel free to contact us directly via WhatsApp or
+        Phone.
+      </p>
+    </div>
+  </div>
+
+  {
+    description && (
+      <div class="mt-6 rounded-lg border border-gray-200 dark:border-gray-700 p-5 bg-gray-50 dark:bg-slate-800">
+        <Fragment set:html={description} />
+      </div>
+    )
+  }
+</form>
+
+<script>
+  function initContactForm() {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    if (!form || form.dataset.formInitialized) return;
+    form.dataset.formInitialized = 'true';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      let originalBtnText = 'Send Message';
+
+      if (submitBtn) {
+        const text = submitBtn.innerHTML.trim();
+        if (text && !text.includes('animate-spin') && !text.includes('Sending Message...')) {
+          originalBtnText = submitBtn.innerHTML;
+        }
+      }
+
+      const successOverlay = document.getElementById('form-feedback-success-overlay');
+      const errorAlert = document.getElementById('form-feedback-error');
+
+      if (successOverlay) successOverlay.classList.add('hidden');
+      if (errorAlert) errorAlert.classList.add('hidden');
+
+      const formData = new FormData(form);
+
+      // Extract details for subject enhancement
+      const name = formData.get('name') || 'Client';
+      const userSubject = formData.get('subject') || 'Inquiry';
+
+      // Update subject line on the fly to provide premium summary info
+      const subjectInput = form.querySelector('input[name="_subject"]') as HTMLInputElement | null;
+      if (subjectInput) {
+        subjectInput.value = `[Infinity Code Labs Form] ${userSubject} - From ${name}`;
+      }
+
+      // Check disclaimer checkbox validation explicitly
+      const disclaimerCheckbox = form.querySelector('#disclaimer') as HTMLInputElement | null;
+      if (disclaimerCheckbox && !disclaimerCheckbox.checked) {
+        if (errorAlert) {
+          const errorDescEl = errorAlert.querySelector('.text-xs');
+          if (errorDescEl) {
+            errorDescEl.innerHTML = `Kripya niche diye gaye box par tick lagayein (accepting terms is required to submit the form).`;
+          }
+          errorAlert.classList.remove('hidden');
+        }
+        return;
+      }
+
+      // Add visual loader state
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+          <svg class="animate-spin h-5 w-5 mr-3 inline-block text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Sending Message...
+        `;
+      }
+
+      function createSuccessBlast() {
+        const container = document.getElementById('success-particles');
+        if (!container) return;
+        container.innerHTML = '';
+
+        const colors = ['#10b981', '#3b82f6', '#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4', '#14b8a6'];
+        const particleCount = 45;
+
+        for (let i = 0; i < particleCount; i++) {
+          const p = document.createElement('div');
+          const size = Math.random() * 8 + 6; // 6px to 14px
+          const color = colors[Math.floor(Math.random() * colors.length)];
+
+          p.style.position = 'absolute';
+          p.style.left = '50%';
+          p.style.top = '50%';
+          p.style.width = `${size}px`;
+          p.style.height = `${size}px`;
+          p.style.backgroundColor = color;
+          p.style.borderRadius = Math.random() > 0.5 ? '50%' : '20%'; // circles and stars/diamonds
+          p.style.pointerEvents = 'none';
+          p.style.transform = 'translate(-50%, -50%) scale(0)';
+          p.style.opacity = '1';
+          p.style.transition = 'all 1.5s cubic-bezier(0.1, 0.8, 0.3, 1)';
+
+          container.appendChild(p);
+
+          // Calculate random blast trajectory
+          const angle = Math.random() * Math.PI * 2;
+          const distance = Math.random() * 180 + 70; // 70px to 250px radial spread
+          const tx = Math.cos(angle) * distance;
+          const ty = Math.sin(angle) * distance;
+          const rotate = Math.random() * 360;
+
+          // Animate outwards
+          setTimeout(() => {
+            p.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) rotate(${rotate}deg) scale(1)`;
+            p.style.opacity = '0';
+          }, 15);
+        }
+      }
+
+      try {
+        const payload: Record<string, FormDataEntryValue> = {};
+        formData.forEach((value, key) => {
+          payload[key] = value;
+        });
+        const response = await fetch('https://formsubmit.co/ajax/baljitmandal66@gmail.com', {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        });
+
+        const result = await response.json();
+
+        if (response.ok && (result.success === 'true' || result.success === true)) {
+          form.reset();
+
+          if (successOverlay) {
+            // Reset state
+            successOverlay.style.transform = 'scale(0.95)';
+            successOverlay.style.filter = '';
+            successOverlay.style.opacity = '0';
+            successOverlay.style.transition = 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            successOverlay.classList.remove('hidden');
+
+            // Force reflow
+            void successOverlay.offsetWidth;
+
+            // Show overlay smoothly
+            successOverlay.style.transform = 'scale(1)';
+            successOverlay.style.opacity = '1';
+
+            // Trigger blast particles
+            createSuccessBlast();
+
+            // Trigger countdown bar
+            const countdownBar = document.getElementById('success-countdown-bar') as HTMLDivElement | null;
+            if (countdownBar) {
+              countdownBar.style.transition = 'none';
+              countdownBar.style.width = '100%';
+              void countdownBar.offsetWidth;
+              countdownBar.style.transition = 'width 6s linear';
+              countdownBar.style.width = '0%';
+            }
+
+            // At 5.4 seconds, trigger the "blast out" exit transition
+            setTimeout(() => {
+              successOverlay.style.transition = 'all 0.6s cubic-bezier(0.6, -0.28, 0.735, 0.045)';
+              successOverlay.style.transform = 'scale(1.5) rotate(3deg)';
+              successOverlay.style.filter = 'blur(12px)';
+              successOverlay.style.opacity = '0';
+            }, 5400);
+
+            // At 6 seconds, hide it completely
+            setTimeout(() => {
+              successOverlay.classList.add('hidden');
+              // Restore overlay style defaults for next submissions
+              successOverlay.style.transform = '';
+              successOverlay.style.filter = '';
+              successOverlay.style.opacity = '';
+              successOverlay.style.transition = '';
+            }, 6000);
+          }
+        } else {
+          if (errorAlert) {
+            const errorDescEl = errorAlert.querySelector('.text-xs');
+            if (errorDescEl) {
+              const reason = result.message || 'Please make sure all fields are valid and try again.';
+              errorDescEl.innerHTML = `There was an issue sending your message: ${reason}`;
+            }
+            errorAlert.classList.remove('hidden');
+          }
+        }
+      } catch (err) {
+        console.error('Form submission error:', err);
+        if (errorAlert) {
+          const errorDescEl = errorAlert.querySelector('.text-xs');
+          if (errorDescEl) {
+            errorDescEl.innerHTML = `There was an issue sending your message. Please check your network connection and try again.`;
+          }
+          errorAlert.classList.remove('hidden');
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
+        }
+      }
+    });
+  }
+
+  function checkAndFocusHash() {
+    if (window.location.hash === '#form') {
+      setTimeout(() => {
+        const textareaEl = document.getElementById('textarea');
+        if (textareaEl) {
+          textareaEl.focus();
+          textareaEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 600); // Allow transition animation to settle
+    }
+  }
+
+  // Handle standard transitions & initial page loads
+  document.addEventListener('astro:page-load', () => {
+    initContactForm();
+    checkAndFocusHash();
+  });
+  window.addEventListener('hashchange', checkAndFocusHash);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initContactForm();
+      checkAndFocusHash();
+    });
+  } else {
+    initContactForm();
+    checkAndFocusHash();
+  }
+</script>

@@ -1,0 +1,528 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+import Hero from '~/components/widgets/Hero.astro';
+import Note from '~/components/widgets/Note.astro';
+import Features from '~/components/widgets/Features.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import Content from '~/components/widgets/Content.astro';
+import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
+import Stats from '~/components/widgets/Stats.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import CodeTypingBackground from '~/components/common/CodeTypingBackground.astro';
+import MagicFormula from '~/components/common/MagicFormula.astro';
+
+const metadata = {
+  title: 'Infinity Code Labs | Professional IT Company in Nepal',
+  description:
+    'Website Development, Software Development, Mobile App Development, Cyber Security, Cloud Hosting, Digital Marketing and IT Solutions.',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Widget ******************* -->
+
+  <Hero
+    tagline="<span class='inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full text-[11px] xs:text-xs sm:text-sm font-extrabold text-cyan-300 bg-cyan-500/10 border border-cyan-400/50 shadow-lg shadow-cyan-500/20 uppercase tracking-wider sm:tracking-widest whitespace-nowrap mb-2'><span class='w-2 h-2 rounded-full bg-cyan-400 animate-pulse shrink-0'></span> Leading Tech Solutions in Nepal</span>"
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Get Free Consultation',
+        href: '/contact',
+        icon: 'tabler:message-dots',
+        class:
+          'border-2 border-cyan-400/80 bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-extrabold shadow-2xl shadow-cyan-500/40 hover:shadow-cyan-400/60 hover:scale-105 transition-all duration-300 rounded-2xl drop-shadow-[0_2px_12px_rgba(34,211,238,0.7)] px-6 py-3.5',
+      },
+      {
+        text: 'Our Services',
+        href: '/services',
+        icon: 'tabler:rocket',
+        class:
+          'border-2 border-purple-400/70 bg-slate-900/90 hover:bg-slate-800 text-purple-200 hover:text-white font-extrabold shadow-2xl shadow-purple-500/30 hover:shadow-purple-400/50 hover:scale-105 transition-all duration-300 rounded-2xl drop-shadow-[0_2px_12px_rgba(192,132,252,0.6)] px-6 py-3.5',
+      },
+    ]}
+    image={{
+      src: '~/assets/images/hero_image_new_1784361394892.jpg',
+      alt: 'Infinity Code Labs Digital Solutions',
+    }}
+  >
+    <Fragment slot="title">
+      <span
+        class="text-[1.65rem] xs:text-3xl sm:text-5xl md:text-6xl flex flex-col md:inline leading-tight tracking-tight font-extrabold items-center"
+      >
+        <span
+          class="inline-block px-3.5 py-1 sm:px-5 sm:py-1.5 my-1 rounded-2xl border-2 border-cyan-400/60 dark:border-cyan-400/50 bg-slate-900/40 text-cyan-200 dark:text-cyan-300 shadow-xl shadow-cyan-500/20 drop-shadow-[0_2px_10px_rgba(34,211,238,0.6)] font-extrabold"
+        >
+          Complete
+        </span>
+        <span
+          class="relative flex sm:inline-flex items-center justify-center text-center mx-auto md:mx-2 my-2.5 md:my-0 min-w-[200px] xs:min-w-[240px] sm:min-w-[420px] w-full sm:w-auto h-[1.2em]"
+        >
+          <span
+            class="absolute inset-x-4 inset-y-0 bg-cyan-400/20 dark:bg-cyan-400/10 blur-xl rounded-full scale-110 animate-pulse"
+          ></span>
+          <span class="relative flex items-center justify-center">
+            <span
+              id="magic-text-target"
+              class="notranslate text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 dark:from-cyan-300 dark:via-purple-300 dark:to-blue-400 animate-text-shine bg-[length:200%_auto] drop-shadow-[0_0_12px_rgba(34,211,238,0.6)] font-black z-10 whitespace-nowrap transition-all duration-200"
+              >IT Solutions</span
+            >
+            <span
+              id="magic-cursor"
+              class="inline-block w-[3px] md:w-[4px] h-[0.9em] bg-cyan-400 ml-1 rounded-sm shadow-[0_0_10px_theme(colors.cyan.400)] transition-opacity duration-300 z-10 shrink-0"
+            ></span>
+          </span>
+        </span>
+        <span
+          class="inline-block px-3.5 py-1 sm:px-5 sm:py-1.5 my-1 md:whitespace-nowrap rounded-2xl border-2 border-purple-400/60 dark:border-purple-400/50 bg-slate-900/40 text-purple-200 dark:text-purple-300 shadow-xl shadow-purple-500/20 drop-shadow-[0_2px_10px_rgba(192,132,252,0.6)] font-extrabold"
+        >
+          For Your Business
+        </span>
+      </span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      <span
+        class="inline-block p-4 sm:p-6 rounded-3xl border-2 border-cyan-400/40 dark:border-cyan-400/50 bg-transparent dark:bg-transparent backdrop-blur-none shadow-2xl shadow-cyan-500/20 text-slate-100 dark:text-cyan-100 font-medium text-sm sm:text-lg leading-relaxed drop-shadow-[0_2px_12px_rgba(34,211,238,0.35)]"
+      >
+        <span
+          class="font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-indigo-200 to-purple-300 drop-shadow-[0_2px_10px_rgba(34,211,238,0.7)]"
+          >Infinity Code Labs</span
+        >
+        provides professional
+        <span class="text-cyan-300 font-bold drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]">Website Development</span>,
+        <span class="text-purple-300 font-bold drop-shadow-[0_0_8px_rgba(192,132,252,0.6)]">Software Development</span>,
+        <span class="text-pink-300 font-bold drop-shadow-[0_0_8px_rgba(244,114,182,0.6)]">Mobile App Development</span>,
+        <span class="text-emerald-300 font-bold drop-shadow-[0_0_8px_rgba(52,211,153,0.6)]">Cyber Security</span>,
+        <span class="text-sky-300 font-bold drop-shadow-[0_0_8px_rgba(56,189,248,0.6)]">Cloud Hosting</span>,
+        <span class="text-amber-300 font-bold drop-shadow-[0_0_8px_rgba(252,211,77,0.6)]">Graphics Design</span>, Domain
+        Registration, Digital Marketing and Technical Support across
+        <span class="font-extrabold text-rose-300 drop-shadow-[0_0_10px_rgba(253,164,175,0.7)]">Nepal</span>.
+      </span>
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 overflow-hidden">
+        <CodeTypingBackground />
+      </div>
+    </Fragment>
+  </Hero>
+
+  <style>
+    .animate-text-shine {
+      animation: text-shine 3s linear infinite;
+    }
+    @keyframes text-shine {
+      to {
+        background-position: 200% center;
+      }
+    }
+    .cursor-blink-fast {
+      animation: blink-fast 0.8s step-end infinite;
+    }
+    @keyframes blink-fast {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+  </style>
+
+  <script is:inline>
+    (function () {
+      function initHeroTyping() {
+        const target = document.getElementById('magic-text-target');
+        const cursor = document.getElementById('magic-cursor');
+        if (!target || !cursor) return;
+
+        if (target.dataset.typingStarted === 'true') return;
+        target.dataset.typingStarted = 'true';
+
+        const isNepali = (function () {
+          try {
+            const pref = localStorage.getItem('preferred_language');
+            if (pref === 'ne') return true;
+            if (document.cookie.includes('googtrans=/en/ne')) return true;
+          } catch {
+            // ignore localStorage / cookie errors
+          }
+          return false;
+        })();
+
+        const englishWords = [
+          'IT Solutions',
+          'Your Vision + My Code = Our Product',
+          'Web Development',
+          'Cyber Security',
+          'Mobile Apps',
+          'Cloud Hosting',
+          'Digital Marketing',
+        ];
+
+        const nepaliWords = [
+          'आइटी सोलुसन्स',
+          'तपाईंको भिजन + मेरो कोड = हाम्रो प्रोडक्ट',
+          'वेब डेभलपमेन्ट',
+          'साइबर सेक्युरिटी',
+          'मोबाइल एप्स',
+          'क्लाउड होस्टिङ',
+          'डिजिटल मार्केटिङ',
+        ];
+
+        const words = isNepali ? nepaliWords : englishWords;
+
+        let wordIndex = 0;
+        let charIndex = words[0].length;
+        let isDeleting = false;
+        let typingDelay = 100;
+
+        // Start with the first word already typed (from SSR or language preference)
+        target.textContent = words[0];
+
+        function typeText() {
+          if (!document.getElementById('magic-text-target')) return; // DOM check
+
+          const currentWord = words[wordIndex];
+
+          if (currentWord.includes('Vision') || currentWord.includes('भिजन')) {
+            target.classList.add('text-base', 'xs:text-lg', 'sm:text-2xl', 'md:text-3xl', 'tracking-tight');
+          } else {
+            target.classList.remove('text-base', 'xs:text-lg', 'sm:text-2xl', 'md:text-3xl', 'tracking-tight');
+          }
+
+          if (isDeleting) {
+            charIndex--;
+            typingDelay = 40;
+          } else {
+            charIndex++;
+            typingDelay = 100;
+          }
+
+          target.textContent = currentWord.substring(0, charIndex);
+
+          if (!isDeleting && charIndex === currentWord.length) {
+            // Pause at end of word
+            typingDelay = 2000;
+            isDeleting = true;
+            cursor.classList.add('cursor-blink-fast');
+          } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            wordIndex = (wordIndex + 1) % words.length;
+            // Pause before typing next word
+            typingDelay = 400;
+            cursor.classList.remove('cursor-blink-fast');
+          } else {
+            // Add some randomness to typing speed
+            if (!isDeleting) {
+              typingDelay += Math.random() * 50;
+              cursor.classList.remove('cursor-blink-fast');
+            }
+          }
+
+          setTimeout(typeText, typingDelay);
+        }
+
+        // Initial pause before deleting first word
+        cursor.classList.add('cursor-blink-fast');
+        setTimeout(() => {
+          isDeleting = true;
+          typeText();
+        }, 3000);
+      }
+
+      initHeroTyping();
+      document.addEventListener('astro:page-load', initHeroTyping);
+    })();
+  </script>
+
+  <!-- Note Widget ******************* -->
+
+  <Note title="Why Infinity Code Labs?" description="Reliable • Secure • Modern • Scalable IT Solutions" />
+
+  <!-- Magic Success Formula Widget * -->
+  <MagicFormula />
+  <!-- Features Widget *************** -->
+
+  <Features
+    id="services"
+    tagline="OUR SERVICES"
+    title="Complete IT Solutions Under One Roof"
+    subtitle="We build secure, scalable and modern digital solutions for startups, schools, businesses and organizations."
+    items={[
+      {
+        title: 'Website Development',
+        description:
+          'Business Website, E-Commerce, School Website, Portfolio, News Portal and Custom Web Applications.',
+        icon: 'tabler:world-www',
+      },
+
+      {
+        title: 'Software Development',
+        description: 'Desktop Software, ERP Systems, School Management, Billing and Custom Business Solutions.',
+        icon: 'tabler:device-desktop',
+      },
+
+      {
+        title: 'Mobile App Development',
+        description: 'Android & iOS Applications with modern UI and high performance.',
+        icon: 'tabler:device-mobile',
+      },
+
+      {
+        title: 'Cyber Security',
+        description: 'Security Audits, Website Protection, Server Hardening and Technical Support.',
+        icon: 'tabler:shield-lock',
+      },
+
+      {
+        title: 'Cloud Hosting & Domains',
+        description: 'VPS Hosting, Cloud Infrastructure, Domain Registration and Email Hosting.',
+        icon: 'tabler:server',
+      },
+
+      {
+        title: 'Digital Marketing',
+        description: 'SEO, Google Ads, Facebook Marketing, Branding and Graphics Design.',
+        icon: 'tabler:chart-line',
+      },
+    ]}
+  />
+
+  <!-- Content Widget **************** -->
+
+  <Content
+    isReversed
+    tagline="WHY CHOOSE US"
+    title="Modern Technology. Real Business Results."
+    items={[
+      {
+        title: 'Experienced Team',
+        description: 'Professional developers and IT experts.',
+      },
+      {
+        title: 'Affordable Pricing',
+        description: 'Best quality with reasonable pricing.',
+      },
+      {
+        title: 'Fast Delivery',
+        description: 'On-time project completion.',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085',
+      alt: 'Team',
+    }}
+  >
+    <Fragment slot="content">
+      We build modern websites, software, mobile apps and cloud infrastructure for businesses across Nepal.
+    </Fragment>
+  </Content>
+
+  <!-- Content Widget **************** -->
+
+  <Content
+    isAfterContent
+    items={[
+      {
+        title: 'Website Design',
+        description: 'Responsive business websites.',
+      },
+      {
+        title: 'ERP Solutions',
+        description: 'School, College and Business ERP.',
+      },
+      {
+        title: 'Hosting',
+        description: 'Cloud VPS and Dedicated Hosting.',
+      },
+      {
+        title: 'Support',
+        description: '24/7 Technical Assistance.',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3',
+      alt: 'Office',
+    }}
+  >
+    <Fragment slot="content"> Everything you need under one roof. </Fragment>
+  </Content>
+
+  <!-- Content Widget **************** -->
+
+  <Content
+    isReversed
+    isAfterContent
+    items={[
+      {
+        title: 'Cyber Security',
+        description: 'Protect your business.',
+      },
+      {
+        title: 'SEO',
+        description: 'Rank higher on Google.',
+      },
+      {
+        title: 'Brand Identity',
+        description: 'Professional logos and graphics.',
+      },
+      {
+        title: 'Cloud Infrastructure',
+        description: 'Scalable VPS solutions.',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b',
+      alt: 'Security',
+    }}
+  >
+    <Fragment slot="content"> Helping businesses grow with secure technology. </Fragment>
+  </Content>
+
+  <!-- Steps Widget ****************** -->
+
+  <Steps
+    title="How We Turn Your Idea Into Reality"
+    items={[
+      {
+        title: 'Step 1: <span class="font-medium">Consultation</span>',
+        description:
+          'Share your business idea or project requirements with our team. We understand your goals and suggest the best technology solution.',
+        icon: 'tabler:messages',
+      },
+      {
+        title: 'Step 2: <span class="font-medium">Design & Development</span>',
+        description:
+          'Our designers and developers build a secure, responsive and modern website, software or mobile application tailored to your needs.',
+        icon: 'tabler:code',
+      },
+      {
+        title: 'Step 3: <span class="font-medium">Testing & Launch</span>',
+        description:
+          'Every project is thoroughly tested before deployment. After launch, we provide ongoing maintenance and technical support.',
+        icon: 'tabler:rocket',
+      },
+      {
+        title: 'Project Delivered Successfully',
+        icon: 'tabler:check',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1552664730-d307ca884978',
+      alt: 'Infinity Code Labs Development Process',
+    }}
+  />
+
+  <!-- Features2 Widget ************** -->
+
+  <!-- Features2 Widget ************** -->
+
+  <Features2
+    title="Why Businesses Choose Infinity Code Labs"
+    subtitle="Professional IT services designed to help your business grow faster."
+    tagline="WHY CHOOSE US"
+    items={[
+      {
+        title: 'Professional Team',
+        description: 'Experienced developers, designers and IT professionals.',
+        icon: 'tabler:users',
+      },
+      {
+        title: 'Modern Technologies',
+        description: 'Latest web, cloud and mobile development technologies.',
+        icon: 'tabler:cpu',
+      },
+      {
+        title: 'Fast Delivery',
+        description: 'Projects delivered on schedule without compromising quality.',
+        icon: 'tabler:clock-hour-4',
+      },
+      {
+        title: 'Cyber Security',
+        description: 'Secure infrastructure and protection for your business.',
+        icon: 'tabler:shield-lock',
+      },
+      {
+        title: 'Cloud Hosting',
+        description: 'Reliable VPS, Dedicated Servers and Cloud Solutions.',
+        icon: 'tabler:cloud-computing',
+      },
+      {
+        title: 'SEO Friendly',
+        description: 'Optimized websites that perform well on Google Search.',
+        icon: 'tabler:search',
+      },
+      {
+        title: '24/7 Technical Support',
+        description: 'Quick support whenever your business needs assistance.',
+        icon: 'tabler:headset',
+      },
+      {
+        title: 'Affordable Pricing',
+        description: 'Quality IT services at competitive prices.',
+        icon: 'tabler:currency-dollar',
+      },
+      {
+        title: 'Long Term Partnership',
+        description: 'We grow together with our clients through continuous support.',
+        icon: 'tabler:plug-connected',
+      },
+    ]}
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Features2>
+
+  <!-- HighlightedPosts Widget ******* -->
+
+  <BlogLatestPosts
+    title="Find out more content in our Blog"
+    information={`The blog is used to display AstroWind documentation.
+                        Each new article will be an important step that you will need to know to be an expert in creating a website using Astro v6 + Tailwind CSS v4.
+                        Astro is a very interesting technology. Thanks.
+                `}
+  />
+
+  <!-- Stats Widget ****************** -->
+
+  <Stats
+    stats={[
+      { title: 'Projects Completed', amount: '100+' },
+      { title: 'Happy Clients', amount: '50+' },
+      { title: 'IT Services', amount: '15+' },
+      { title: 'Support', amount: '24/7' },
+    ]}
+  />
+
+  <!-- CallToAction Widget *********** -->
+
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Deal Now',
+        href: '/contact#form',
+        icon: 'tabler:rocket',
+      },
+    ]}
+  >
+    <Fragment slot="title">
+      Transforming The World&nbsp;&nbsp;<br class="block sm:hidden" /><span class="sm:whitespace-nowrap"
+        >into Digital</span
+      >
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Don't let your business get left behind in this rapidly evolving digital era. Step into the future and establish
+      your brand with modern digital solutions!
+      <br class="hidden md:inline" />
+      Don't waste more time!
+    </Fragment>
+  </CallToAction>
+</Layout>

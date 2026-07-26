@@ -1,0 +1,35 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  icon?: string;
+  title?: string;
+  description?: string;
+}
+
+const {
+  icon = 'tabler:info-square',
+  title = await Astro.slots.render('title'),
+  description = await Astro.slots.render('description'),
+} = Astro.props;
+---
+
+<section class="relative max-w-6xl mx-auto px-4 my-6 not-prose">
+  <div
+    class="relative overflow-hidden rounded-2xl bg-transparent border-2 border-cyan-400/60 p-4 sm:p-5 text-center shadow-2xl shadow-cyan-500/25 backdrop-blur-none"
+  >
+    <div class="flex items-center justify-center flex-wrap gap-2 text-sm sm:text-base font-semibold">
+      <Icon
+        name={icon}
+        class="w-5 h-5 inline-block text-cyan-300 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-pulse"
+      />
+      <span
+        class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-indigo-200 to-purple-300 drop-shadow-[0_2px_10px_rgba(34,211,238,0.6)]"
+        set:html={title}
+      />
+      <span class="text-cyan-100/90 font-bold ml-1 drop-shadow-[0_1px_6px_rgba(56,189,248,0.5)]"
+        ><Fragment set:html={description} /></span
+      >
+    </div>
+  </div>
+</section>

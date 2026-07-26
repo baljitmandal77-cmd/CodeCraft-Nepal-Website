@@ -1,0 +1,182 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+import Hero from '~/components/widgets/Hero.astro';
+import Contact from '~/components/widgets/Contact.astro';
+
+const metadata = {
+  title: 'Contact',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="<span class='inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full text-[11px] xs:text-xs sm:text-sm font-extrabold text-cyan-300 bg-cyan-500/10 border border-cyan-400/50 shadow-lg shadow-cyan-500/20 uppercase tracking-wider sm:tracking-widest whitespace-nowrap mb-2'><span class='w-2 h-2 rounded-full bg-cyan-400 animate-pulse shrink-0'></span> Contact Us</span>"
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Call Now',
+        href: 'tel:+9779807618948',
+      },
+      {
+        text: 'WhatsApp',
+        href: 'https://wa.me/9779807618948',
+        target: '_blank',
+        icon: 'tabler:brand-whatsapp',
+      },
+    ]}
+  >
+    <Fragment slot="title">
+      <span
+        class="text-3xl sm:text-5xl md:text-6xl flex flex-col md:inline leading-tight tracking-tight font-extrabold items-center"
+      >
+        <span
+          class="inline-block px-3.5 py-1 sm:px-5 sm:py-1.5 my-1 rounded-2xl border-2 border-cyan-400/60 dark:border-cyan-400/50 bg-slate-900/40 text-cyan-200 dark:text-cyan-300 shadow-xl shadow-cyan-500/20 drop-shadow-[0_2px_10px_rgba(34,211,238,0.6)] animate-text-glow font-extrabold"
+        >
+          Let's Build Something
+        </span>
+        <span
+          class="inline-block px-3.5 py-1 sm:px-5 sm:py-1.5 my-1 rounded-2xl border-2 border-purple-400/60 dark:border-purple-400/50 bg-slate-900/40 text-purple-200 dark:text-purple-300 shadow-xl shadow-purple-500/20 drop-shadow-[0_2px_10px_rgba(192,132,252,0.6)] animate-text-glow-purple font-extrabold"
+        >
+          Amazing Together
+        </span>
+      </span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      <span
+        class="inline-block p-4 sm:p-6 rounded-3xl border-2 border-cyan-400/40 dark:border-cyan-400/50 bg-transparent dark:bg-transparent backdrop-blur-none shadow-2xl shadow-cyan-500/20 text-slate-100 dark:text-cyan-100 font-medium text-sm sm:text-lg leading-relaxed drop-shadow-[0_2px_12px_rgba(34,211,238,0.35)]"
+      >
+        Have a project in mind? Contact Infinity Code Labs today for professional IT solutions, custom software, and
+        digital strategy.
+      </span>
+    </Fragment>
+  </Hero>
+
+  <style>
+    .animate-text-gradient {
+      animation: text-gradient 4s linear infinite;
+    }
+    @keyframes text-gradient {
+      to {
+        background-position: 200% center;
+      }
+    }
+  </style>
+  <section class="max-w-4xl mx-auto px-6 py-16">
+    <div
+      class="rounded-2xl border border-cyan-500/40 dark:border-cyan-500/40 bg-transparent dark:bg-transparent backdrop-blur-none p-8 md:p-10 shadow-xl"
+    >
+      <h2 class="text-3xl font-extrabold tracking-tight mb-8 text-gray-900 dark:text-white">Contact Information</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Office Info Card -->
+        <div
+          class="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-200 border border-transparent hover:border-slate-100 dark:hover:border-slate-800"
+        >
+          <div class="flex-shrink-0 p-3 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400">
+            <Icon name="tabler:map-pin" class="w-6 h-6" />
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Office Location</h3>
+            <p class="text-gray-600 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+              Bhramarpura Chowk Janakpurdham, Nepal
+            </p>
+          </div>
+        </div>
+
+        <!-- Phone Info Card -->
+        <a
+          href="tel:+9779807618948"
+          class="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-200 border border-transparent hover:border-slate-100 dark:hover:border-slate-800 group"
+        >
+          <div
+            class="flex-shrink-0 p-3 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-200"
+          >
+            <Icon name="tabler:phone" class="w-6 h-6" />
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Phone Number</h3>
+            <p class="text-blue-600 dark:text-blue-400 font-semibold text-sm md:text-base group-hover:underline">
+              +977 9807618948
+            </p>
+          </div>
+        </a>
+
+        <!-- WhatsApp Info Card -->
+        <a
+          href="https://wa.me/9779807618948"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-200 border border-transparent hover:border-slate-100 dark:hover:border-slate-800 group"
+        >
+          <div
+            class="flex-shrink-0 p-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform duration-200"
+          >
+            <Icon name="tabler:brand-whatsapp" class="w-6 h-6" />
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">WhatsApp</h3>
+            <p class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm md:text-base group-hover:underline">
+              +977 9807618948
+            </p>
+          </div>
+        </a>
+
+        <!-- Working Hours Card -->
+        <div
+          class="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-200 border border-transparent hover:border-slate-100 dark:hover:border-slate-800"
+        >
+          <div class="flex-shrink-0 p-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400">
+            <Icon name="tabler:clock" class="w-6 h-6" />
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Working Hours</h3>
+            <p class="text-gray-600 dark:text-slate-300 text-sm md:text-base">
+              Sunday – Friday<br />
+              <span
+                class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 inline-block mt-1"
+                >9:00 AM – 6:00 PM</span
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <Contact
+    id="form"
+    tagline="GET IN TOUCH"
+    title="Drop us a message!"
+    subtitle="Our team is ready to assist you. Fill out the form below and we will get back to you shortly."
+    inputs={[
+      {
+        type: 'text',
+        name: 'name',
+        label: 'Full Name',
+        placeholder: 'John Doe',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'Email Address',
+        placeholder: 'johndoe@example.com',
+      },
+      {
+        type: 'text',
+        name: 'subject',
+        label: 'Subject',
+        placeholder: 'How can we help you?',
+      },
+    ]}
+    textarea={{
+      label: 'Your Message',
+      placeholder: 'Describe your project or query...',
+    }}
+    disclaimer={{
+      label: 'By submitting this form, you agree to the collection of your personal information.',
+    }}
+    button="Send Message"
+  />
+</Layout>

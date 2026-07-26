@@ -1,0 +1,137 @@
+---
+import { Icon } from 'astro-icon/components';
+import Button from '~/components/ui/Button.astro';
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import Image from '~/components/common/Image.astro';
+import type { Content as Props } from '~/types';
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline,
+  content = await Astro.slots.render('content'),
+  callToAction,
+  items = [],
+  columns,
+  image = await Astro.slots.render('image'),
+  isReversed = false,
+  isAfterContent = false,
+
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+
+const columnsClass =
+  columns === 4
+    ? 'lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'
+    : columns === 3
+      ? 'lg:grid-cols-3 sm:grid-cols-2'
+      : columns === 2
+        ? 'sm:grid-cols-2'
+        : '';
+---
+
+<WidgetWrapper
+  id={id}
+  isDark={isDark}
+  containerClass={`max-w-7xl mx-auto ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container ?? ''}`}
+  bg={bg}
+>
+  <Headline
+    title={title}
+    subtitle={subtitle}
+    tagline={tagline}
+    classes={{
+      container: 'max-w-xl sm:mx-auto lg:max-w-2xl',
+      title: 'text-4xl md:text-5xl font-bold tracking-tighter mb-4 font-heading',
+      subtitle: 'max-w-3xl mx-auto sm:text-center text-xl text-muted dark:text-slate-400',
+    }}
+  />
+  <div class="mx-auto max-w-7xl p-4 md:px-8">
+    <div class={`md:flex ${isReversed ? 'md:flex-row-reverse' : ''} md:gap-16`}>
+      <div class="md:basis-1/2 self-center">
+        {
+          content && (
+            <div
+              class="mb-8 text-lg font-bold text-slate-200 dark:text-cyan-100 bg-transparent backdrop-blur-none p-4 rounded-xl border border-cyan-500/40 shadow-lg shadow-cyan-500/10 drop-shadow-[0_1px_6px_rgba(34,211,238,0.4)]"
+              set:html={content}
+            />
+          )
+        }
+
+        {
+          callToAction && (
+            <div class="mt-[-20px] mb-8 text-primary">
+              <Button variant="link" {...callToAction} />
+            </div>
+          )
+        }
+
+        {
+          items.length > 0 && (
+            <div class:list={['grid mx-auto gap-y-4 md:gap-y-6 gap-6', columnsClass]}>
+              {items.map(({ title: itemTitle, description, icon, callToAction }) => (
+                <div class="intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-slide-up p-3.5 rounded-xl bg-transparent dark:bg-transparent backdrop-blur-none border-2 border-indigo-500/40 hover:border-cyan-400 transition-all duration-300 shadow-md hover:shadow-cyan-500/25">
+                  <div class="flex flex-row max-w-none items-start">
+                    <div class="flex justify-center shrink-0">
+                      <Icon
+                        name={icon || 'tabler:check'}
+                        class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-indigo-600 text-white p-1.5 shadow-md shadow-cyan-500/40 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]"
+                      />
+                    </div>
+                    <div class="mt-0.5 ml-3 rtl:ml-0 rtl:mr-3">
+                      {itemTitle && (
+                        <h3 class="text-base sm:text-lg font-extrabold bg-gradient-to-r from-cyan-300 via-sky-200 to-purple-200 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(34,211,238,0.5)]">
+                          {itemTitle}
+                        </h3>
+                      )}
+                      {description && (
+                        <p
+                          class:list={[
+                            { 'mt-1': itemTitle },
+                            'text-xs sm:text-sm font-medium text-slate-300 dark:text-cyan-100/90 drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]',
+                          ]}
+                          set:html={description}
+                        />
+                      )}
+                      {callToAction && (
+                        <div class:list={[{ 'mt-2': itemTitle || description }, 'text-sm font-semibold']}>
+                          <Button variant="link" {...callToAction} />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )
+        }
+      </div>
+      <div aria-hidden="true" class="mt-10 md:mt-0 md:basis-1/2 flex items-center justify-center">
+        {
+          image && (
+            <div class="relative m-auto max-w-[90%] md:max-w-none overflow-hidden rounded-2xl group/image border-2 border-cyan-400/60 p-2 bg-transparent shadow-2xl shadow-cyan-500/25 backdrop-blur-none">
+              {typeof image === 'string' ? (
+                <Fragment set:html={image} />
+              ) : (
+                <Image
+                  class="mx-auto w-full rounded-xl bg-gray-500 transition-transform duration-700 ease-out group-hover/image:scale-105"
+                  width={500}
+                  height={500}
+                  widths={[400, 768]}
+                  sizes="(max-width: 768px) 100vw, 432px"
+                  layout="responsive"
+                  format="webp"
+                  {...image}
+                />
+              )}
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</WidgetWrapper>

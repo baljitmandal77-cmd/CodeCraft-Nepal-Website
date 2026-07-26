@@ -1,0 +1,171 @@
+---
+
+---
+
+<!-- 1. Scroll Progress Bar -->
+<div
+  id="magic-scroll-progress"
+  class="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 z-[100] transition-all duration-150 ease-out origin-left"
+  style="width: 0%;"
+>
+</div>
+
+<!-- 4. Custom Interactive Cursor -->
+<div
+  id="magic-cursor"
+  class="fixed top-0 left-0 w-3 h-3 bg-blue-500/80 rounded-full pointer-events-none z-[100] transform -translate-x-1/2 -translate-y-1/2 transition-transform duration-75 ease-out hidden md:block mix-blend-difference"
+>
+</div>
+<div
+  id="magic-cursor-follower"
+  class="fixed top-0 left-0 w-10 h-10 border border-blue-400/50 rounded-full pointer-events-none z-[99] transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out hidden md:block"
+>
+</div>
+
+<!-- 5. Easter Egg Script (canvas-confetti) -->
+<script is:inline src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+<script>
+  // Utility: Check if device is touch
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+  // 1. Scroll Progress Bar
+  window.addEventListener('scroll', () => {
+    const scrollProgress = document.getElementById('magic-scroll-progress');
+    if (scrollProgress) {
+      const scrollPx = document.documentElement.scrollTop || document.body.scrollTop;
+      const winHeightPx = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = winHeightPx > 0 ? `${(scrollPx / winHeightPx) * 100}%` : '0%';
+      scrollProgress.style.width = scrolled;
+    }
+  });
+
+  // 4. Custom Interactive Cursor
+  if (!isTouchDevice) {
+    const cursor = document.getElementById('magic-cursor');
+    const follower = document.getElementById('magic-cursor-follower');
+
+    if (cursor && follower) {
+      cursor.classList.remove('hidden');
+      follower.classList.remove('hidden');
+
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let followerX = mouseX;
+      let followerY = mouseY;
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        // Instant cursor update
+        cursor.style.left = `${mouseX}px`;
+        cursor.style.top = `${mouseY}px`;
+      });
+
+      // Smooth follower animation loop
+      function animateFollower() {
+        followerX += (mouseX - followerX) * 0.15;
+        followerY += (mouseY - followerY) * 0.15;
+
+        if (follower) {
+          follower.style.left = `${followerX}px`;
+          follower.style.top = `${followerY}px`;
+        }
+
+        requestAnimationFrame(animateFollower);
+      }
+      animateFollower();
+
+      // Hover effect on interactive elements
+      const interactiveSelector = 'a, button, input, textarea, select, [role="button"]';
+
+      const addHoverEffect = () => {
+        cursor.classList.add('scale-[2.5]', 'bg-indigo-500/80');
+        follower.classList.add('scale-[1.5]', 'border-indigo-500/80', 'bg-indigo-500/10');
+      };
+
+      const removeHoverEffect = () => {
+        cursor.classList.remove('scale-[2.5]', 'bg-indigo-500/80');
+        follower.classList.remove('scale-[1.5]', 'border-indigo-500/80', 'bg-indigo-500/10');
+      };
+
+      // Use event delegation for dynamic elements
+      document.body.addEventListener('mouseover', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.closest(interactiveSelector)) {
+          addHoverEffect();
+        }
+      });
+
+      document.body.addEventListener('mouseout', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.closest(interactiveSelector)) {
+          removeHoverEffect();
+        }
+      });
+
+      // Hide when leaving window
+      document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+        follower.style.opacity = '0';
+      });
+
+      document.addEventListener('mouseenter', () => {
+        cursor.style.opacity = '1';
+        follower.style.opacity = '1';
+      });
+    }
+  }
+
+  // 5. Easter Egg (Type 'magic' or 'codecraft')
+  let pressed: string[] = [];
+  const secretCodes = ['magic', 'codecraft'];
+  const maxCodeLength = Math.max(...secretCodes.map((c) => c.length));
+
+  window.addEventListener('keyup', (e) => {
+    // Only capture letters
+    if (e.key && e.key.length === 1 && e.key.match(/[a-z]/i)) {
+      pressed.push(e.key.toLowerCase());
+      pressed.splice(-maxCodeLength - 1, pressed.length - maxCodeLength);
+
+      const typed = pressed.join('');
+
+      const matched = secretCodes.some((code) => typed.includes(code));
+
+      if (matched) {
+        // Trigger Confetti
+        type ConfettiFunc = (options: Record<string, unknown>) => void;
+        const confWindow = window as unknown as { confetti?: ConfettiFunc };
+        if (typeof confWindow.confetti === 'function') {
+          const duration = 3000;
+          const end = Date.now() + duration;
+
+          (function frame() {
+            if (confWindow.confetti) {
+              confWindow.confetti({
+                particleCount: 5,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#3b82f6', '#8b5cf6', '#ec4899'],
+              });
+              confWindow.confetti({
+                particleCount: 5,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#3b82f6', '#8b5cf6', '#ec4899'],
+              });
+            }
+
+            if (Date.now() < end) {
+              requestAnimationFrame(frame);
+            }
+          })();
+        }
+        pressed = []; // Reset after trigger
+      }
+    }
+  });
+</script>

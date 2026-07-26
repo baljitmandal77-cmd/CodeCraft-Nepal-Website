@@ -1,0 +1,238 @@
+---
+import '~/assets/styles/tailwind.css';
+
+import { I18N } from 'astrowind:config';
+
+import CommonMeta from '~/components/common/CommonMeta.astro';
+import Favicons from '~/components/Favicons.astro';
+import CustomStyles from '~/components/CustomStyles.astro';
+import ApplyColorMode from '~/components/common/ApplyColorMode.astro';
+import Metadata from '~/components/common/Metadata.astro';
+import SiteVerification from '~/components/common/SiteVerification.astro';
+import Analytics from '~/components/common/Analytics.astro';
+import BasicScripts from '~/components/common/BasicScripts.astro';
+import AIChat from '~/components/common/AIChat.astro';
+import MusicPlayer from '~/components/common/MusicPlayer.astro';
+import MagicFeatures from '~/components/common/MagicFeatures.astro';
+import ParticleWebBackground from '~/components/common/ParticleWebBackground.astro';
+
+import { ClientRouter } from 'astro:transitions';
+
+import type { MetaData as MetaDataType } from '~/types';
+
+export interface Props {
+  metadata?: MetaDataType;
+}
+
+const { metadata = {} } = Astro.props;
+const { language, textDirection } = I18N;
+---
+
+<!doctype html>
+<html lang={language} dir={textDirection} class="2xl:text-[20px]">
+  <head>
+    <CommonMeta />
+    <Favicons />
+    <CustomStyles />
+    <ApplyColorMode />
+    <Metadata {...metadata} />
+    <SiteVerification />
+    <Analytics />
+
+    <link rel="preconnect" href="https://images.unsplash.com" />
+
+    <ClientRouter fallback="swap" />
+
+    <style is:inline>
+      /* Hide ALL Google Translate visual artifacts, bars, tooltips, gadgets & hover popups */
+      .skiptranslate,
+      div.skiptranslate,
+      iframe.skiptranslate,
+      body > .skiptranslate,
+      body > div[class*='VIpgm'],
+      body > div[class*='goog'],
+      .goog-te-banner-frame,
+      .goog-te-banner,
+      .goog-te-gadget,
+      .goog-te-gadget-simple,
+      .goog-te-gadget-icon,
+      .goog-te-menu-frame,
+      .goog-te-balloon-frame,
+      .goog-te-balloon-wrapper,
+      .goog-te-spinner-pos,
+      #goog-gt-tt,
+      #goog-gt-vt,
+      [id*='goog-gt-'],
+      .goog-tooltip,
+      .goog-tooltip:hover,
+      .VIpgm6e-bN9bfb-fwR30c,
+      .VIpgm6e-bN9bfb-fwR30c-bN9bfb,
+      .VIpgm6e-a32R1e-bN9bfb,
+      #google_translate_element {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        height: 0 !important;
+        width: 0 !important;
+        max-height: 0 !important;
+        max-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        overflow: hidden !important;
+        position: absolute !important;
+        top: -9999px !important;
+        left: -9999px !important;
+        z-index: -99999 !important;
+      }
+
+      /* Prevent Google Translate from adding margin/padding or shifting top position */
+      html,
+      body {
+        top: 0px !important;
+        margin-top: 0px !important;
+        padding-top: 0px !important;
+        position: static !important;
+      }
+
+      /* Keep custom notranslate elements normal */
+      .notranslate {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: auto !important;
+        width: auto !important;
+        pointer-events: auto !important;
+        position: static !important;
+      }
+
+      /* Disable hover highlight background and shadow added by Google Translate */
+      .goog-text-highlight {
+        background-color: transparent !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+
+      /* Prevent translation font tags from showing tooltips or highlights on hover */
+      font[style*='vertical-align'],
+      font {
+        background-color: transparent !important;
+        box-shadow: none !important;
+      }
+    </style>
+  </head>
+
+  <body class="antialiased text-default bg-page tracking-tight">
+    <ParticleWebBackground />
+    <slot />
+
+    <BasicScripts />
+
+    <!-- Google Translate hidden elements -->
+    <div
+      id="google_translate_element"
+      style="position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden;"
+    >
+    </div>
+    <script type="text/javascript" is:inline>
+      window.googleTranslateElementInit = function () {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: 'en',
+            includedLanguages: 'en,ne',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false,
+          },
+          'google_translate_element'
+        );
+      };
+    </script>
+    <script
+      type="text/javascript"
+      src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+      is:inline></script>
+
+    <script is:inline>
+      (function () {
+        function cleanGoogleTranslate() {
+          if (document.body) {
+            if (document.body.style.top && document.body.style.top !== '0px') {
+              document.body.style.setProperty('top', '0px', 'important');
+            }
+            if (document.body.style.position === 'relative') {
+              document.body.style.setProperty('position', 'static', 'important');
+            }
+            if (document.body.style.marginTop && document.body.style.marginTop !== '0px') {
+              document.body.style.setProperty('margin-top', '0px', 'important');
+            }
+          }
+          if (document.documentElement) {
+            if (document.documentElement.style.top && document.documentElement.style.top !== '0px') {
+              document.documentElement.style.setProperty('top', '0px', 'important');
+            }
+          }
+
+          const translateElements = document.querySelectorAll(
+            'iframe.goog-te-banner-frame, .goog-te-banner-frame, .goog-te-banner, .goog-te-gadget, .goog-te-gadget-simple, .goog-te-balloon-frame, #goog-gt-tt, #goog-gt-vt, [id*="goog-gt-"], .goog-tooltip, .VIpgm6e-bN9bfb-fwR30c, .VIpgm6e-a32R1e-bN9bfb'
+          );
+          translateElements.forEach((el) => {
+            el.style.setProperty('display', 'none', 'important');
+            el.style.setProperty('visibility', 'hidden', 'important');
+            el.style.setProperty('height', '0px', 'important');
+            el.style.setProperty('width', '0px', 'important');
+            el.style.setProperty('opacity', '0', 'important');
+            el.style.setProperty('pointer-events', 'none', 'important');
+          });
+
+          if (document.body) {
+            const skipEls = document.querySelectorAll('.skiptranslate');
+            skipEls.forEach((el) => {
+              if (el.id !== 'google_translate_element' && !el.classList.contains('notranslate')) {
+                el.style.setProperty('display', 'none', 'important');
+                el.style.setProperty('visibility', 'hidden', 'important');
+              }
+            });
+
+            // Hide any top-level injected divs from Google Translate or outer scripts
+            const nonAppDivs = document.querySelectorAll(
+              'body > div:not(#google_translate_element):not(#ai-chat-widget):not(#music-player-widget):not(#magic-scroll-progress):not(#magic-cursor):not(#magic-cursor-follower):not(#particle-web-container):not(#__astro)'
+            );
+            nonAppDivs.forEach((div) => {
+              if (
+                div.classList.contains('skiptranslate') ||
+                div.className.includes('VIpgm') ||
+                div.className.includes('goog') ||
+                div.querySelector('iframe') ||
+                (div.querySelector('svg') && !div.id)
+              ) {
+                div.style.setProperty('display', 'none', 'important');
+                div.style.setProperty('visibility', 'hidden', 'important');
+                div.style.setProperty('opacity', '0', 'important');
+                div.style.setProperty('pointer-events', 'none', 'important');
+              }
+            });
+          }
+        }
+
+        const observer = new MutationObserver(cleanGoogleTranslate);
+        if (document.documentElement) {
+          observer.observe(document.documentElement, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['style', 'class'],
+          });
+        }
+
+        setInterval(cleanGoogleTranslate, 200);
+        window.addEventListener('DOMContentLoaded', cleanGoogleTranslate);
+        window.addEventListener('load', cleanGoogleTranslate);
+      })();
+    </script>
+    <AIChat />
+    <MusicPlayer />
+    <MagicFeatures />
+  </body>
+</html>

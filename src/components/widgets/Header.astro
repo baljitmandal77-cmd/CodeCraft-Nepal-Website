@@ -1,0 +1,644 @@
+---
+import { Icon } from 'astro-icon/components';
+import Logo from '~/components/Logo.astro';
+import ToggleTheme from '~/components/common/ToggleTheme.astro';
+import ToggleLanguage from '~/components/common/ToggleLanguage.astro';
+import ToggleMenu from '~/components/common/ToggleMenu.astro';
+import Button from '~/components/ui/Button.astro';
+
+import { getHomePermalink } from '~/utils/permalinks';
+import { trimSlash, getAsset } from '~/utils/permalinks';
+import type { CallToAction } from '~/types';
+
+interface Link {
+  text?: string;
+  href?: string;
+  ariaLabel?: string;
+  icon?: string;
+}
+
+interface MenuLink extends Link {
+  links?: Array<MenuLink>;
+}
+
+export interface Props {
+  id?: string;
+  links?: Array<MenuLink>;
+  actions?: Array<CallToAction>;
+  isSticky?: boolean;
+  isDark?: boolean;
+  isFullWidth?: boolean;
+  showToggleTheme?: boolean;
+  showRssFeed?: boolean;
+  position?: string;
+}
+
+const {
+  id = 'header',
+  links = [],
+  actions = [],
+  isSticky = false,
+  isDark = false,
+  isFullWidth = false,
+  showToggleTheme = false,
+  showRssFeed = false,
+  position = 'center',
+} = Astro.props;
+
+const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
+---
+
+<header
+  class:list={[
+    { sticky: isSticky, relative: !isSticky, dark: isDark },
+    'top-0 md:top-4 z-40 flex-none mx-auto w-full md:max-w-5xl md:px-4 transition-all duration-300 ease-in-out',
+  ]}
+  {...isSticky ? { 'data-aw-sticky-header': true } : {}}
+  {...id ? { id } : {}}
+>
+  <!-- Floating Pill Background container for Desktop, normal full-width for mobile -->
+  <div
+    class="absolute inset-0 md:rounded-full md:border md:border-cyan-500/30 dark:md:border-cyan-500/30 md:shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:md:shadow-[0_8px_30px_rgb(0,0,0,0.35)] bg-transparent dark:bg-transparent backdrop-blur-none transition-all duration-300"
+  >
+  </div>
+
+  <!-- Glowing Page Navigation Progress Bar at the top of the floating header -->
+  <div
+    id="nav-loading-bar"
+    class="absolute top-0 left-6 right-6 h-[3px] bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 rounded-full scale-x-0 origin-left opacity-0 transition-all duration-500 ease-out z-50 shadow-[0_0_8px_rgba(34,211,238,0.5)]"
+  >
+  </div>
+  <div
+    class:list={[
+      'relative text-default py-3 px-3 md:px-6 mx-auto w-full',
+      {
+        'md:flex md:justify-between': position !== 'center',
+      },
+      {
+        'md:grid md:grid-cols-3 md:items-center': position === 'center',
+      },
+      {
+        'max-w-7xl': !isFullWidth,
+      },
+    ]}
+  >
+    <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
+      <a
+        class="flex items-center transition-transform duration-300 hover:scale-105 active:scale-95"
+        href={getHomePermalink()}
+      >
+        <Logo />
+      </a>
+      <div class="flex items-center md:hidden gap-1">
+        {showToggleTheme && <ToggleTheme iconClass="w-5 h-5" />}
+        <ToggleLanguage iconClass="w-5 h-5" />
+        <ToggleMenu />
+      </div>
+    </div>
+    <nav
+      class="items-center w-full md:w-auto hidden md:flex md:mx-5 text-default overflow-y-auto overflow-x-hidden md:overflow-visible md:justify-self-center"
+      aria-label="Main navigation"
+    >
+      <ul
+        class="flex flex-col md:flex-row md:self-center w-full md:w-auto text-xl md:text-[0.9375rem] tracking-[0.01rem] font-medium md:justify-center"
+      >
+        {
+          links.map(({ text, href, links }) => (
+            <li class:list={[{ 'dropdown group/dropdown': links?.length }]}>
+              {links?.length ? (
+                <>
+                  <button
+                    type="button"
+                    class="hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap relative group/navlink transition-all duration-200 hover:scale-105 active:scale-95"
+                  >
+                    <span class="relative py-0.5">
+                      {text}{' '}
+                      <span class="absolute -bottom-1 left-0 w-full h-[2.5px] bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-cyan-400 dark:to-blue-500 rounded-full transition-transform duration-300 origin-left scale-x-0 group-hover/dropdown:scale-x-100" />
+                    </span>
+                    <Icon
+                      name="tabler:chevron-down"
+                      class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden md:inline transition-transform duration-300 group-hover/dropdown:rotate-180"
+                    />
+                  </button>
+                  <ul class="dropdown-menu md:backdrop-blur-md dark:md:bg-dark rounded-xl border border-slate-100/80 dark:border-slate-800/80 md:absolute pl-4 md:pl-0 md:hidden font-medium md:bg-white/90 md:min-w-[200px] shadow-xl shadow-slate-100/40 dark:shadow-none p-1.5 gap-0.5">
+                    {links.map(({ text: text2, href: href2 }) => (
+                      <li>
+                        <a
+                          class:list={[
+                            'rounded-lg md:hover:bg-slate-50 dark:md:hover:bg-slate-800/50 hover:text-link dark:hover:text-white py-2 px-5 block whitespace-no-wrap transition-all duration-200 hover:scale-105 active:scale-95 hover:translate-x-1',
+                            {
+                              'aw-link-active text-blue-600 dark:text-cyan-400 font-semibold bg-blue-50/40 dark:bg-slate-800/30':
+                                href2 === currentPath,
+                            },
+                          ]}
+                          href={href2}
+                        >
+                          {text2}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <a
+                  class:list={[
+                    'hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap relative group/navlink transition-all duration-200 hover:scale-105 active:scale-95',
+                    { 'aw-link-active text-blue-600 dark:text-cyan-400 font-semibold': href === currentPath },
+                  ]}
+                  href={href}
+                >
+                  <span class="relative py-0.5">
+                    {text}
+                    <span
+                      class:list={[
+                        'absolute -bottom-1 left-0 w-full h-[2.5px] bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-cyan-400 dark:to-blue-500 rounded-full transition-transform duration-300 origin-left',
+                        href === currentPath ? 'scale-x-100' : 'scale-x-0 group-hover/navlink:scale-x-100',
+                      ]}
+                    />
+                  </span>
+                </a>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+      {
+        actions?.length ? (
+          <li class="md:hidden mt-2 pt-2 border-t border-slate-200/10 dark:border-slate-800/10 w-full flex flex-col gap-2 list-none">
+            {actions.map((btnProps) => (
+              <Button
+                {...btnProps}
+                class="mobile-action-btn w-full py-2 px-4 font-semibold text-sm justify-center text-center shadow-none rounded-xl"
+              />
+            ))}
+          </li>
+        ) : (
+          ''
+        )
+      }
+    </nav>
+    <div
+      class:list={[
+        { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
+        'hidden md:self-center md:flex items-center md:mb-0 fixed w-full md:w-auto md:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 md:p-0 md:justify-self-end',
+      ]}
+    >
+      <div class="items-center flex justify-between w-full md:w-auto">
+        <div class="flex items-center gap-0.5">
+          {showToggleTheme && <ToggleTheme iconClass="w-6 h-6 md:w-5 md:h-5 md:inline-block" />}
+          <ToggleLanguage iconClass="w-6 h-6 md:w-5 md:h-5 md:inline-block" />
+          {
+            showRssFeed && (
+              <a
+                class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
+                aria-label="RSS Feed"
+                href={getAsset('/rss.xml')}
+              >
+                <Icon name="tabler:rss" class="w-5 h-5" />
+              </a>
+            )
+          }
+        </div>
+        {
+          actions?.length ? (
+            <span class="ml-4 rtl:ml-0 rtl:mr-4">
+              {actions.map((btnProps) => (
+                <Button
+                  {...btnProps}
+                  class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto transition-transform duration-300 hover:scale-[1.03] active:scale-95"
+                />
+              ))}
+            </span>
+          ) : (
+            ''
+          )
+        }
+      </div>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  (function () {
+    function initHeaderAnimations() {
+      const loader = document.getElementById('nav-loading-bar');
+      if (!loader) return;
+
+      // Select all navigation links in the header
+      const links = document.querySelectorAll('#header a');
+      links.forEach((link) => {
+        const href = link.getAttribute('href');
+
+        // Skip external, anchors, or JavaScript void links
+        if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('javascript:')) {
+          return;
+        }
+
+        link.addEventListener('click', () => {
+          // Add click scaling animation for tactile physical feel
+          link.style.transform = 'scale(0.95)';
+          link.style.transition = 'transform 100ms cubic-bezier(0.16, 1, 0.3, 1)';
+          setTimeout(() => {
+            link.style.transform = 'scale(1)';
+          }, 150);
+
+          // Trigger the beautiful loading indicator
+          loader.style.opacity = '1';
+          loader.style.transform = 'scale-x(0)';
+
+          // Force reflow
+          void loader.offsetHeight;
+
+          // Phase 1: Rapidly move to 40%
+          loader.style.transition = 'transform 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 300ms';
+          loader.style.transform = 'scale-x(0.4)';
+
+          // Phase 2: Creep to 85%
+          setTimeout(() => {
+            loader.style.transition = 'transform 1000ms cubic-bezier(0.16, 1, 0.3, 1), opacity 300ms';
+            loader.style.transform = 'scale-x(0.85)';
+          }, 300);
+        });
+      });
+
+      // --- MOBILE BOMB BLAST SHATTER EXITS ---
+      const toggleBtn = document.querySelector('[data-aw-toggle-menu]');
+      const nav = document.querySelector('#header nav');
+
+      function createBlastParticles(x, y) {
+        const container = document.createElement('div');
+        container.style.position = 'fixed';
+        container.style.left = '0';
+        container.style.top = '0';
+        container.style.width = '100vw';
+        container.style.height = '100vh';
+        container.style.pointerEvents = 'none';
+        container.style.zIndex = '9999';
+        document.body.appendChild(container);
+
+        const particleCount = 32;
+        const colors = ['#3b82f6', '#8b5cf6', '#06b6d4', '#ec4899', '#f43f5e', '#10b981'];
+
+        for (let i = 0; i < particleCount; i++) {
+          const p = document.createElement('div');
+          p.style.position = 'absolute';
+          p.style.left = `${x}px`;
+          p.style.top = `${y}px`;
+
+          const size = 6 + Math.random() * 12;
+          p.style.width = `${size}px`;
+          p.style.height = `${size}px`;
+          p.style.borderRadius = Math.random() > 0.4 ? '50%' : '2px';
+          p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          p.style.boxShadow = `0 0 10px ${p.style.backgroundColor}`;
+
+          container.appendChild(p);
+
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 4 + Math.random() * 14;
+          let vx = Math.cos(angle) * speed;
+          let vy = Math.sin(angle) * speed - 2;
+          let px = x;
+          let py = y;
+          let opacity = 1;
+          let scale = 1;
+
+          const gravity = 0.15;
+          const friction = 0.96;
+
+          function update() {
+            vx *= friction;
+            vy *= friction;
+            vy += gravity;
+            px += vx;
+            py += vy;
+            opacity -= 0.022;
+            scale -= 0.018;
+
+            if (opacity <= 0 || scale <= 0) {
+              p.remove();
+              return;
+            }
+
+            p.style.transform = `translate3d(${px - x}px, ${py - y}px, 0) scale(${scale})`;
+            p.style.opacity = opacity;
+
+            requestAnimationFrame(update);
+          }
+
+          requestAnimationFrame(update);
+        }
+
+        setTimeout(() => {
+          container.remove();
+        }, 1500);
+      }
+
+      function triggerShatterExit(clickX, clickY, callback) {
+        if (!nav) {
+          if (callback) callback();
+          return;
+        }
+
+        const items = nav.querySelectorAll('li');
+        items.forEach((item, index) => {
+          const angle = (index / (items.length || 1)) * Math.PI * 2 + (Math.random() - 0.5) * 0.5;
+          const distance = 80 + Math.random() * 120;
+          const x = Math.cos(angle) * distance;
+          const y = Math.sin(angle) * distance;
+          const r = (Math.random() - 0.5) * 100;
+
+          item.style.setProperty('--x', `${x}px`);
+          item.style.setProperty('--y', `${y}px`);
+          item.style.setProperty('--r', `${r}deg`);
+          item.classList.add('item-shattered');
+        });
+
+        nav.classList.add('card-shattered');
+
+        const startX = clickX || window.innerWidth / 2;
+        const startY = clickY || window.innerHeight / 2;
+        createBlastParticles(startX, startY);
+
+        setTimeout(() => {
+          if (callback) callback();
+
+          // Reset styles after closing
+          nav.classList.remove('card-shattered');
+          items.forEach((item) => {
+            item.classList.remove('item-shattered');
+            item.style.removeProperty('--x');
+            item.style.removeProperty('--y');
+            item.style.removeProperty('--r');
+          });
+        }, 450);
+      }
+
+      // Intercept clicks on toggle menu when closing
+      if (toggleBtn) {
+        toggleBtn.addEventListener(
+          'click',
+          (e) => {
+            if (toggleBtn.classList.contains('expanded')) {
+              e.preventDefault();
+              e.stopPropagation();
+              e.stopImmediatePropagation();
+
+              triggerShatterExit(e.clientX, e.clientY, () => {
+                toggleBtn.classList.remove('expanded');
+                document.body.classList.remove('overflow-hidden');
+                document.getElementById('header')?.classList.remove('h-screen');
+                document.getElementById('header')?.classList.remove('expanded');
+                document.getElementById('header')?.classList.remove('bg-page');
+                document.querySelector('#header nav')?.classList.add('hidden');
+                document.querySelector('#header > div > div:last-child')?.classList.add('hidden');
+              });
+            }
+          },
+          true
+        );
+      }
+
+      // Intercept clicks on links inside mobile navigation to shatter first!
+      if (nav) {
+        nav.addEventListener(
+          'click',
+          (e) => {
+            // Only apply on mobile screens
+            if (window.innerWidth >= 768) return;
+
+            const link = e.target.closest('a');
+            if (!link) return;
+
+            const href = link.getAttribute('href');
+            if (!href || href.startsWith('#') || href.startsWith('javascript:')) {
+              return;
+            }
+
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+
+            triggerShatterExit(e.clientX, e.clientY, () => {
+              // Close menu
+              if (toggleBtn) toggleBtn.classList.remove('expanded');
+              document.body.classList.remove('overflow-hidden');
+              document.getElementById('header')?.classList.remove('h-screen');
+              document.getElementById('header')?.classList.remove('expanded');
+              document.getElementById('header')?.classList.remove('bg-page');
+              document.querySelector('#header nav')?.classList.add('hidden');
+              document.querySelector('#header > div > div:last-child')?.classList.add('hidden');
+
+              // Navigate
+              window.location.href = href;
+            });
+          },
+          true
+        );
+      }
+    }
+
+    initHeaderAnimations();
+    document.addEventListener('astro:page-load', initHeaderAnimations);
+  })();
+</script>
+
+<style>
+  @media (max-width: 767px) {
+    /* Prevent the header from expanding to full screen height and covering the page */
+    #header.expanded {
+      height: auto !important;
+      background: transparent !important;
+    }
+
+    /* Force the header background div to only cover the top bar, not the full screen */
+    #header.expanded > div:first-child {
+      height: 64px !important;
+      border-radius: 0 0 16px 16px !important;
+    }
+
+    /* Right-aligned, compact, highly professional mobile floating menu */
+    #header.expanded nav {
+      display: flex !important;
+      position: absolute !important;
+      top: calc(100% + 8px) !important;
+      left: auto !important;
+      right: 16px !important;
+      width: 240px !important;
+      bottom: auto !important;
+      max-height: 80vh !important;
+      overflow-y: auto !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+      backdrop-filter: blur(24px) saturate(190%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 18px !important;
+      padding: 12px 8px !important;
+      box-shadow:
+        0 10px 40px -10px rgba(31, 38, 135, 0.15),
+        0 4px 16px rgba(0, 0, 0, 0.08),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+      z-index: 50 !important;
+      flex-direction: column !important;
+      gap: 4px !important;
+      animation: mobile-menu-fade-in 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transform-origin: top right;
+    }
+
+    .dark #header.expanded nav {
+      background: rgba(10, 15, 30, 0.15) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+      box-shadow:
+        0 10px 40px -10px rgba(0, 0, 0, 0.5),
+        0 4px 16px rgba(0, 0, 0, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.05) !important;
+    }
+
+    #header.expanded nav ul {
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 2px !important;
+    }
+
+    #header.expanded nav li {
+      width: 100% !important;
+    }
+
+    /* Style menu links with crisp contrast on mobile */
+    #header.expanded nav a,
+    #header.expanded nav button {
+      width: 100% !important;
+      display: flex !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
+      padding: 10px 14px !important;
+      font-size: 0.975rem !important;
+      font-weight: 600 !important;
+      border-radius: 10px !important;
+      border-left: 3px solid transparent !important;
+      transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+      text-align: left !important;
+      color: #ffffff !important;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .dark #header.expanded nav a,
+    .dark #header.expanded nav button {
+      color: #ffffff !important;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    /* Elegant hover/active effects on links */
+    #header.expanded nav a:active,
+    #header.expanded nav button:active,
+    #header.expanded nav a.aw-link-active,
+    #header.expanded nav button.aw-link-active {
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.08) 0%, rgba(139, 92, 246, 0.02) 100%) !important;
+      color: #2563eb !important;
+      border-left-color: #2563eb !important;
+      border-radius: 4px 10px 10px 4px !important;
+      padding-left: 11px !important;
+    }
+
+    .dark #header.expanded nav a:active,
+    .dark #header.expanded nav button:active,
+    .dark #header.expanded nav a.aw-link-active,
+    .dark #header.expanded nav button.aw-link-active {
+      background: linear-gradient(90deg, rgba(34, 211, 238, 0.12) 0%, rgba(217, 70, 239, 0.02) 100%) !important;
+      color: #22d3ee !important;
+      border-left-color: #22d3ee !important;
+      border-radius: 4px 10px 10px 4px !important;
+      padding-left: 11px !important;
+    }
+
+    /* Style the Let's Talk button as a premium gradient button on mobile */
+    #header.expanded nav a.mobile-action-btn,
+    #header.expanded nav button.mobile-action-btn {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      width: 100% !important;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important;
+      color: #ffffff !important;
+      border-left: none !important;
+      border-radius: 12px !important;
+      padding: 12px 16px !important;
+      font-size: 0.9rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.025em !important;
+      box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3) !important;
+      margin-top: 10px !important;
+    }
+
+    .dark #header.expanded nav a.mobile-action-btn,
+    .dark #header.expanded nav button.mobile-action-btn {
+      background: linear-gradient(135deg, #06b6d4 0%, #a855f7 100%) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 18px rgba(6, 182, 212, 0.3) !important;
+    }
+
+    #header.expanded nav a.mobile-action-btn:active,
+    #header.expanded nav button.mobile-action-btn:active {
+      transform: scale(0.97) !important;
+      opacity: 0.95 !important;
+      box-shadow: 0 2px 8px rgba(139, 92, 246, 0.15) !important;
+    }
+
+    .dark #header.expanded nav a.mobile-action-btn:active,
+    .dark #header.expanded nav button.mobile-action-btn:active {
+      box-shadow: 0 2px 8px rgba(6, 182, 212, 0.2) !important;
+    }
+
+    /* Hide the redundant extra actions/toggles container on mobile, as they are already in the main header bar */
+    #header.expanded > div > div:last-child {
+      display: none !important;
+    }
+
+    @keyframes mobile-menu-fade-in {
+      0% {
+        opacity: 0;
+        transform: translateY(-4px) scale(0.96);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Shatter bomb blast exit animations */
+    @keyframes item-shatter {
+      0% {
+        transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+        opacity: 1;
+        filter: blur(0px);
+      }
+      100% {
+        transform: translate3d(var(--x), var(--y), 0) rotate(var(--r)) scale(0.4);
+        opacity: 0;
+        filter: blur(4px);
+      }
+    }
+
+    .item-shattered {
+      animation: item-shatter 450ms cubic-bezier(0.1, 0.8, 0.25, 1) forwards !important;
+      pointer-events: none !important;
+    }
+
+    @keyframes card-shatter {
+      0% {
+        opacity: 1;
+        filter: blur(0px);
+      }
+      100% {
+        opacity: 0;
+        filter: blur(8px);
+        transform: translateY(15px) scale(0.96);
+      }
+    }
+
+    .card-shattered {
+      animation: card-shatter 450ms cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+      pointer-events: none !important;
+    }
+  }
+</style>

@@ -1,0 +1,152 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  label?: string;
+  class?: string;
+  iconClass?: string;
+}
+
+const {
+  label = 'Switch Language / भाषा परिवर्तन गर्नुहोस्',
+  class:
+    className = 'text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center gap-1.5 font-medium',
+  iconClass = 'w-5 h-5',
+} = Astro.props;
+---
+
+<button type="button" class={className + ' language-toggle'} aria-label={label}>
+  <Icon name="tabler:language" class={iconClass} />
+  <span class="language-toggle-text text-xs tracking-wider uppercase font-bold">EN</span>
+</button>
+
+<script>
+  function updateToggleUI() {
+    const preferredLang = localStorage.getItem('preferred_language') || 'en';
+    const textEls = document.querySelectorAll('.language-toggle-text');
+    textEls.forEach((el) => {
+      if (preferredLang === 'ne') {
+        el.textContent = 'नेपाली';
+      } else {
+        el.textContent = 'EN';
+      }
+    });
+  }
+
+  function getDomains() {
+    const hostname = window.location.hostname;
+    const domains = ['', hostname, '.' + hostname];
+    const parts = hostname.split('.');
+
+    // Generate all parent domains up to second-level domain (e.g. b.com, .b.com)
+    for (let i = 0; i < parts.length; i++) {
+      const dom = parts.slice(i).join('.');
+      if (dom && dom.includes('.')) {
+        domains.push(dom);
+        domains.push('.' + dom);
+      }
+    }
+    return Array.from(new Set(domains));
+  }
+
+  function clearAllGoogtransCookies() {
+    const domains = getDomains();
+    const paths = ['/', ''];
+
+    domains.forEach((dom) => {
+      paths.forEach((path) => {
+        const domPart = dom ? `; domain=${dom}` : '';
+        const pathPart = path ? `; path=${path}` : '';
+
+        // Attempt to delete
+        document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC${pathPart}${domPart}`;
+        document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC${pathPart}${domPart}; SameSite=None; Secure`;
+
+        // Also set to /en/en as a fallback in case delete fails
+        document.cookie = `googtrans=/en/en${pathPart}${domPart}`;
+        document.cookie = `googtrans=/en/en${pathPart}${domPart}; SameSite=None; Secure`;
+      });
+    });
+  }
+
+  function setGoogtransCookie(value: string) {
+    clearAllGoogtransCookies();
+    const domains = getDomains();
+    const paths = ['/'];
+
+    domains.forEach((dom) => {
+      paths.forEach((path) => {
+        const domPart = dom ? `; domain=${dom}` : '';
+        const pathPart = path ? `; path=${path}` : '';
+        document.cookie = `googtrans=${value}${pathPart}${domPart}`;
+        document.cookie = `googtrans=${value}${pathPart}${domPart}; SameSite=None; Secure`;
+      });
+    });
+  }
+
+  function getGoogtransCookie(): string | null {
+    const cookies = document.cookie.split(';');
+    let val: string | null = null;
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith('googtrans=')) {
+        val = cookie.substring(10);
+        if (val && val.includes('/ne')) return val; // Prefer the Nepali one if multiple exist
+      }
+    }
+    return val;
+  }
+
+  function syncLanguage() {
+    const preferredLang = localStorage.getItem('preferred_language') || 'en';
+    const cookieVal = getGoogtransCookie();
+
+    // Prevent infinite reload loops
+    const lastSync = parseInt(sessionStorage.getItem('last_lang_sync') || '0', 10);
+    const now = Date.now();
+    if (now - lastSync < 2000) return; // Don't reload more than once every 2 seconds
+
+    if (preferredLang === 'ne') {
+      if (!cookieVal || !cookieVal.includes('/ne')) {
+        sessionStorage.setItem('last_lang_sync', now.toString());
+        setGoogtransCookie('/en/ne');
+        window.location.reload();
+      }
+    } else {
+      if (cookieVal && cookieVal.includes('/ne')) {
+        sessionStorage.setItem('last_lang_sync', now.toString());
+        clearAllGoogtransCookies();
+        window.location.reload();
+      }
+    }
+  }
+
+  function handleLanguageToggle() {
+    const preferredLang = localStorage.getItem('preferred_language') || 'en';
+    const targetLang = preferredLang === 'ne' ? 'en' : 'ne';
+
+    localStorage.setItem('preferred_language', targetLang);
+    updateToggleUI();
+
+    if (targetLang === 'ne') {
+      setGoogtransCookie('/en/ne');
+    } else {
+      clearAllGoogtransCookies();
+    }
+
+    sessionStorage.setItem('last_lang_sync', Date.now().toString());
+    window.location.reload();
+  }
+
+  function setupToggleListeners() {
+    const toggleBtns = document.querySelectorAll('.language-toggle');
+    toggleBtns.forEach((btn) => {
+      btn.addEventListener('click', handleLanguageToggle);
+    });
+  }
+
+  // Initial runs
+  setupToggleListeners();
+  updateToggleUI();
+  syncLanguage();
+</script>

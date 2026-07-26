@@ -1,0 +1,63 @@
+---
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import type { CallToAction, Widget } from '~/types';
+import Headline from '~/components/ui/Headline.astro';
+import Button from '~/components/ui/Button.astro';
+
+interface Props extends Widget {
+  title?: string;
+  subtitle?: string;
+  tagline?: string;
+  callToAction?: CallToAction;
+  actions?: string | CallToAction[];
+}
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline = await Astro.slots.render('tagline'),
+  actions = await Astro.slots.render('actions'),
+
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+---
+
+<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+  <div
+    class="max-w-4xl mx-auto text-center p-8 sm:p-12 md:p-16 rounded-3xl border-2 border-cyan-400/60 dark:border-cyan-400/60 bg-transparent shadow-2xl shadow-cyan-500/25 backdrop-blur-none intersect-once motion-safe:opacity-0 motion-safe:intersect:animate-scale-up"
+  >
+    <Headline
+      title={title}
+      subtitle={subtitle}
+      tagline={tagline}
+      classes={{
+        container: 'mb-0 md:mb-0',
+        title:
+          'text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-cyan-300 via-sky-200 to-purple-300 bg-clip-text text-transparent drop-shadow-[0_2px_12px_rgba(34,211,238,0.6)]',
+        subtitle:
+          'text-base sm:text-lg font-medium text-slate-200 dark:text-cyan-100/90 drop-shadow-[0_1px_6px_rgba(34,211,238,0.3)]',
+      }}
+    />
+    {
+      actions && (
+        <div class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 mt-8">
+          {Array.isArray(actions) ? (
+            actions.map((action) => (
+              <div class="flex w-full sm:w-auto">
+                <Button
+                  {...(action || {})}
+                  class="w-full sm:mb-0 border-2 border-cyan-400/80 bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-extrabold shadow-2xl shadow-cyan-500/40 hover:shadow-cyan-400/60 hover:scale-105 transition-all duration-300 rounded-2xl drop-shadow-[0_2px_12px_rgba(34,211,238,0.7)] px-8 py-3.5"
+                />
+              </div>
+            ))
+          ) : (
+            <Fragment set:html={actions} />
+          )}
+        </div>
+      )
+    }
+  </div>
+</WidgetWrapper>
